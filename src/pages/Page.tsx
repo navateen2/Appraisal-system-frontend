@@ -9,12 +9,26 @@ import { useNavigate } from "react-router"
 
 function Page() {
     const Navigate = useNavigate()
-    return (
+    const token = localStorage.getItem("token") || "";
+    let userName = "Guest";
+    let userRole = "";
+    
+    try {
+        if (token) {
+            const payload = JSON.parse(atob(token.split(".")[1]));
+            userName = payload.email ? payload.email.split("@")[0] : "User";
+            userRole = payload.role || "";
+        }
+    } catch (e) {
+        userName = localStorage.getItem("userEmail")?.split("@")[0] || "User";
+        userRole = localStorage.getItem("userRole") || "";
+    }
 
+    return (
         <>
             <nav className="navbar">
                 <div className="navbar-header-name">
-                    <img src="/src/assets/TCP.svg" alt="" onClick={() => { Navigate("/") }} />
+                    <img src="/src/assets/TCP.svg" alt="" onClick={() => { Navigate("/") }} style={{ cursor: "pointer" }} />
                     <div className="website-name">
                         <span>TalentCycle Pro</span>
                         <span className="sub-title">HR Management</span>
@@ -24,10 +38,9 @@ function Page() {
                     <img src="/src/assets/bell.svg" alt="" />
                     <div className="vdivider" />
                     <div className="user-info">
-                        <span className="user-name">'User name'</span>
-                        <span className="user-role">'Role'</span>
+                        <span className="user-name" style={{ textTransform: "capitalize" }}>{userName}</span>
+                        <span className="user-role">{userRole}</span>
                     </div>
-
                 </div>
             </nav>
             <div className="main-page">

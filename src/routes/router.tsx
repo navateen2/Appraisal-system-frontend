@@ -1,33 +1,33 @@
-import { createBrowserRouter } from "react-router";
-// import Layout from "../layout/Layout";
-// import NotFound from "../pages/NotFound/NotFound";
+import { createBrowserRouter, Navigate } from "react-router";
 import ProtectedRoute from "./ProtectedRoute";
-// import LoginPage from "../pages/LoginPage";
+import LoginPage from "../pages/LoginPage";
 import Page from "../pages/Page";
-import Error from "../Error"
+import Dashboard from "../pages/Dashboard";
+import Error from "../Error";
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <Page />,
+    path: "/login",
+    element: <LoginPage />,
     errorElement: <Error />,
   },
-  // {
-  //   element: <ProtectedRoute />,
-  //   children: [
-  //     {
-  //       path: "/employee",
-  //       element: <Layout />,
-  //       children: [
-  //         { index: true, element: < /> },
-  //       ],
-  //     },
-  //   ],
-  // },
-  // {
-  //   path: "*",
-  //   element: <NotFound />,
-  // },
+  {
+    element: <ProtectedRoute />,
+    errorElement: <Error />,
+    children: [
+      {
+        path: "/",
+        element: <Page />,
+        children: [
+          { index: true, element: <Dashboard /> },
+        ],
+      },
+    ],
+  },
+  {
+    path: "*",
+    element: <Navigate to="/" replace />,
+  },
 ]);
 
 export default router;
