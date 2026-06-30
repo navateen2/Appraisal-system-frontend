@@ -7,6 +7,7 @@ import Page from "../pages/Page";
 import Error from "../Error";
 import LoginPage from "../pages/login/LoginPage";
 import Cycles from "../components/Cycles";
+import CycleDetails from "../components/CycleDetails";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,7 @@ const router = createBrowserRouter([
         children: [
           {index: true, element: <span>Dashboard</span>},
           {path: "/cycles", element: <Cycles />},
+          {path: "/cycles/:id", element: <CycleDetails />},
           {path: "/users", element: <span>Users</span>},        ],
       },
     ],
