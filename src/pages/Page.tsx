@@ -20,8 +20,13 @@ function Page() {
                         <span className="sub-title">HR Management</span>
                     </div>
                 </div>
-                <div>
+                <div className="navbar-user-info">
                     <img src="/src/assets/bell.svg" alt="" />
+                    <div className="vdivider" />
+                    <div className="user-info">
+                        <span className="user-name">'User name'</span>
+                        <span className="user-role">'Role'</span>
+                    </div>
 
                 </div>
             </nav>
