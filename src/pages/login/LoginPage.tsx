@@ -1,4 +1,4 @@
-import kvlogo from "../assets/TCP.svg";
+import kvlogo from "../../assets/TCP.svg";
 import "./login.css";
 import { useEffect, useRef, useState } from "react";
 import { useLoginMutation } from "../../api_service/auth/login.api";

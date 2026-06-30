@@ -5,15 +5,13 @@ import ProtectedRoute from "./ProtectedRoute";
 // import LoginPage from "../pages/LoginPage";
 import Page from "../pages/Page";
 import Error from "../Error";
-import { Provider } from "react-redux";
-import store from "../store/store";
 import LoginPage from "../pages/login/LoginPage";
 import Cycles from "../components/Cycles";
 
 const router = createBrowserRouter([
   {
     path: "/login",
-    element:<Provider store={store}><LoginPage /></Provider>,
+    element:<LoginPage />,
     errorElement: <Error />,
   },
   {
