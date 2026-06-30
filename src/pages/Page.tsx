@@ -5,6 +5,7 @@ import { Outlet } from "react-router"
 // import { RouterProvider } from "react-router/dom"
 import Error from "../Error"
 import Header from "../components/Header"
+import SideBarHR from "../components/SideBarHR"
 
 
 function Page() {
@@ -12,8 +13,8 @@ function Page() {
 
         <>
             <Header />
+            <SideBarHR />
             <div className="main-page">
-                {/* <SideBar /> */}
                 <div className="main-space">
                     <Suspense fallback={<Error />}>
                         <Outlet />
