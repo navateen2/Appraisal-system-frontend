@@ -1,0 +1,37 @@
+.navbar{
+    display: flex;
+    background-color: #FCF8FF;
+    position: sticky;
+    height: 64px;
+    width: 100%;
+    border-width: 0px;
+    border-bottom:#CCCCCC;
+    border-bottom-width: 1px;
+    align-items: center;
+    border-style: solid;
+    padding-left: 32px;
+    padding-right: 32px;
+    
+}
+
+.navbar-header-name{
+    width: 100%;
+    padding-left: 10px;
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
+.website-name{
+    display: flex;
+    flex-direction: column;
+    color: #1B1B22;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.sub-title{
+    color: #464553;
+    font-weight: 600;
+    font-size: 12px;
+}
