@@ -13,8 +13,8 @@ function Page() {
 
         <>
             <Header />
-            <SideBarHR />
             <div className="main-page">
+                <SideBarHR />
                 <div className="main-space">
                     <Suspense fallback={<Error />}>
                         <Outlet />

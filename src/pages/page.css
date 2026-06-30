@@ -107,3 +107,12 @@
 .side-bar-item:hover{
     background-color: #E6F1FF;
 }
+
+
+.main-page{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100vh;
+
+}
