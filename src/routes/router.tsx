@@ -6,8 +6,8 @@ import ProtectedRoute from "./ProtectedRoute";
 import Page from "../pages/Page";
 import Error from "../Error";
 import LoginPage from "../pages/login/LoginPage";
-import Cycles from "../components/Cycles";
-import CycleDetails from "../components/CycleDetails";
+import Cycles from "../pages/cycles/Cycles";
+import CycleDetails from "../pages/cycles/CycleDetails";
 
 const router = createBrowserRouter([
   {
