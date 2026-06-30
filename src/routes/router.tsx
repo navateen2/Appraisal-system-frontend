@@ -15,7 +15,7 @@ const router = createBrowserRouter([
     errorElement: <Error />,
   },
   {
-    element: <ProtectedRoute />,
+    element: <ProtectedRoute allowedRoles={["HR"]} />,
     errorElement: <Error />,
     children: [
       {
