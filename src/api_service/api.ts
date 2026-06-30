@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 const userBaseApi = createApi({
   reducerPath: "userApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:8000",
+    baseUrl: import.meta.env.VITE_BACKEND_URL,
     prepareHeaders: (headers) => {
       // Retrieve the token from the state (assuming it's stored in the auth slice)
       const token = localStorage.getItem("token");
