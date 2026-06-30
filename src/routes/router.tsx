@@ -7,6 +7,8 @@ import Page from "../pages/Page";
 import Error from "../Error";
 import LoginPage from "../pages/login/LoginPage";
 import Cycles from "../components/Cycles";
+import Appraisal from "../pages/appraisal/Appraisal";
+import Feedback from "../pages/feedback/Feedback";
 
 const router = createBrowserRouter([
   {
@@ -24,7 +26,9 @@ const router = createBrowserRouter([
         children: [
           {index: true, element: <span>Dashboard</span>},
           {path: "/cycles", element: <Cycles />},
-          {path: "/users", element: <span>Users</span>},        ],
+          {path: "/users", element: <span>Users</span>}, 
+          {path: "/appraisals/:appraisalId", element:<Appraisal />},
+          {path: "/appraisals/:appraisalId/feedback/:feedbackId", element:<Feedback />}             ],
       },
     ],
   },
