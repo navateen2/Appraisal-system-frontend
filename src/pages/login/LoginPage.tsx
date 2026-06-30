@@ -17,7 +17,6 @@ function Login() {
 
   const [login, { isLoading }] = useLoginMutation();
   const onLogin = async () => {
-    console.log(username,pw)
     login({ username: username, password: pw }) 
       .unwrap()
       .then((response) => {
