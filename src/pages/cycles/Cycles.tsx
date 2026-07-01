@@ -1,10 +1,11 @@
 import { useNavigate } from "react-router";
 import "./cycles.css";
-import { useCreateCycleMutation, useGetCyclesQuery } from "../../api_service/cycle/cycle.api";
+import { useAssignEmployeesToCycleMutation, useCreateCycleMutation, useGetCyclesQuery } from "../../api_service/cycle/cycle.api";
 import { useState } from "react";
+import { useGetUsersQuery } from "../../api_service/employees/employee.api";
 
 function Cycles() {
-    const [createFormVisible,setCreateFormVisible] = useState(false);
+    const [createFormVisible, setCreateFormVisible] = useState(false);
     return (
         <div className="cycles-page">
             {createFormVisible && <CreateCycle fn={setCreateFormVisible} />}
@@ -76,36 +77,58 @@ function correctDate(date: string) {
     const [year, month, day] = date.split("-");
     return `${year}-${month}-${day}`;
 }
-function CreateCycle({fn}:{fn: (arg0: boolean) => void}) {
-    const [name,setName] = useState("");
-    const [startDate,setStartDate] = useState("");
-    const [endDate,setEndDate] = useState("");
+function CreateCycle({ fn }: { fn: (arg0: boolean) => void }) {
+    const [name, setName] = useState("");
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");
     const [createCycle,] = useCreateCycleMutation();
-    function handleSubmit() {
-        if(name.length < 3) {
+    const employees = useGetUsersQuery();
+    console.log(employees?.data);
+    const [search, setSearch] = useState("");
+    const [selectedEmployees, setSelectedEmployees] = useState<any[]>([]);
+    const [addEmployeesToCycle,] = useAssignEmployeesToCycleMutation()
+
+
+    const filteredEmployees = employees.data?.filter((employee: any) =>
+        employee.name.toLowerCase().includes(search.toLowerCase())
+    );
+    async function handleSubmit() {
+        if (name.length < 3) {
             alert("Name must be at least 3 characters long");
             return;
         }
-        if(startDate === "" || endDate === "") {
+        if (startDate === "" || endDate === "") {
             alert("Start date and end date must be selected");
             return;
         }
-        if(startDate > endDate) {
+        if (startDate > endDate) {
             alert("Start date cannot be after end date");
             return;
         }
+        try{
+            const response_cycle= await createCycle({
+                "name": name,
+                "start_date": startDate,
+                "end_date": endDate,
+                "status": "Initiated"
+            }).unwrap();
+            console.log(response_cycle.id);
+            await addEmployeesToCycle({
+                "cycle_id": response_cycle.id,
+                "body": {
+                    "employee_ids": selectedEmployees.map((employee) => employee.id)
+                }
+            }).unwrap();
+        } catch (err) {
+        console.error(err);
+     }
+        
 
-        createCycle({
-            "name" : name,
-            "start_date" : startDate,
-            "end_date":endDate,
-            "status": "Initiated"
-        });
         fn(false);
     }
     return (
         <div className="overlay">
-            
+
             <div className="create-cycle-form">
                 <div className="create-cycle-form-header">
                     <span className="create-cycle-form-title">Create Appraisal Cycle</span>
@@ -116,26 +139,52 @@ function CreateCycle({fn}:{fn: (arg0: boolean) => void}) {
                     <div className="form-pair">
                         <span className="form-pair-name">Cycle Name</span>
                         <input type="text" className="form-pair-input" value={name} onChange={(e) => setName(e.target.value)} />
-                        {((name.length < 3 || name.length > 50) && name.length !=0) && <span className="validation-error">Name must be between 3 and 50 characters</span>}
+                        {((name.length < 3 || name.length > 50) && name.length != 0) && <span className="validation-error">Name must be between 3 and 50 characters</span>}
                     </div>
                     <div className="date-pair">
                         <div className="form-pair">
                             <span className="form-pair-name" >Start Date</span>
-                            <input type="date" className="form-pair-input" onClick={(e) => e.currentTarget.showPicker?.()} onChange={(e)=>setStartDate(correctDate(e.currentTarget.value))} />
+                            <input type="date" className="form-pair-input" onClick={(e) => e.currentTarget.showPicker?.()} onChange={(e) => setStartDate(correctDate(e.currentTarget.value))} />
                         </div>
                         <div className="form-pair">
                             <span className="form-pair-name">End Date</span>
-                            <input type="date" className="form-pair-input" onClick={(e) => e.currentTarget.showPicker?.()} onChange={(e)=>setEndDate(correctDate(e.currentTarget.value))} />
+                            <input type="date" className="form-pair-input" onClick={(e) => e.currentTarget.showPicker?.()} onChange={(e) => setEndDate(correctDate(e.currentTarget.value))} />
                         </div>
                     </div>
                     <span className="create-cycle-form-label">ADD EMPLOYEES</span>
                     <div className="form-pair">
-                        <input type="text" className="form-pair-input" placeholder="Search Employees" />
-                    </div>
-                    <div className="form-pair-input">
-                        {
+                        <input type="text" className="form-pair-input" placeholder="Search Employees" value={search} onChange={(e) => setSearch(e.target.value)} />
+                        <div className="form-pair-input filter-list">
 
-                        }
+                            {
+                            filteredEmployees?.map((employee) => (
+                                <div key={employee?.id} className="filtered-list-item" onClick={() => {
+                                    setSearch("");
+                                    selectedEmployees.push(employee);
+                                    setSelectedEmployees([...selectedEmployees]);
+                                    console.log(selectedEmployees)
+                                    }
+                                    }>
+                                    {employee?.name}
+                                </div>
+                            )
+                        )
+                            }
+
+                        </div>
+                        <div className="form-pair-input filtered-list">
+
+                            {
+                            selectedEmployees?.map((employee: any) => (
+                                <div key={employee?.id} className="filtered-list-item" onClick={() => {setSearch("");}}>
+                                {employee?.name}
+                                <img src="/src/assets/close.svg" alt="" />
+                                </div>
+                            )
+                        )
+                            }
+
+                        </div>
                     </div>
                 </div>
                 <div className="create-cycle-form-footer">

@@ -1,19 +1,24 @@
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import "./cycledetails.css";
+import { useGetCycleByIdQuery } from "../../api_service/cycle/cycle.api";
 
 function CycleDetails() {
+  const { id } = useParams()
+  const cycle = useGetCycleByIdQuery(id);
+  const cycleData = cycle.data;
+  console.log(cycleData);
   return (
     <div className="cycle-details">
       <div className="cycle-details-header">
         <div className="cycle-details-header-left">
           <div className="cycle-details-header-info">
-            {getDateRange()}
-            {getStatus()}
+            {getDateRange(cycleData?.start_date, cycleData?.end_date)}
+            {getStatus(cycleData?.status)}
           </div>
           <span className="cycle-details-header-title">Developer Cycle</span>
         </div>
-        <MarkCycleCompleteButton />
-        <StartCycleButton />
+        {cycleData?.status === 'In Progress' && <MarkCycleCompleteButton />}
+        {cycleData?.status === 'Initiated' && <StartCycleButton />}
       </div>
       <div className="Appraisals-table">
         <div className="cycles-row column-names">
@@ -32,18 +37,23 @@ function CycleDetails() {
 
 export default CycleDetails;
 
-const getDateRange = () => {
+const getDateRange = (start_date?: string, end_date?: string) => {
   return (
     <div className="status-badge">
-      Date Range
+      {start_date?.substring(0,10)} to {end_date?.substring(0,10)}
     </div>
   )
 }
 
-const getStatus = () => {
+const getStatus = (status?: string) => {
+    const statusClass: any = {
+        "In Progress": "status-in-progress",
+        "Completed": "status-completed",
+        "Initiated": "status-initiated",
+    }
   return (
-    <div className="status-badge status-completed">
-      Status: Completed
+    <div className={`status-badge ${statusClass[status]}`}>
+      {status}
     </div>
   )
 }
