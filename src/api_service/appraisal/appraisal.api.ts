@@ -47,6 +47,26 @@ export const appraisalApi = userBaseApi.injectEndpoints({
       query: (id:number) => `appraisal/${id}/appraisals`,
       providesTags: ["Appraisals"],
     }),
+
+    updateAppraisalStatus: builder.mutation({
+      query: ({
+        appraisalId,
+        status,
+      }: {
+        appraisalId: number;
+        status: string;
+      }) => ({
+        url: `appraisal/${appraisalId}/status`,
+        method: "PUT",
+        body: {
+          status,
+        },
+      }),
+      invalidatesTags: (result, error, { appraisalId }) => [
+        { type: "Appraisals", id: appraisalId },
+        "Appraisals",
+      ],
+    }),
   }),
 });
 
@@ -58,5 +78,5 @@ export const {
   useUpdateAppraisalMutation,
   useDeleteAppraisalMutation,
   useGetEmployeeAppraisalHistoryQuery,
-
+  useUpdateAppraisalStatusMutation
 } = appraisalApi;
