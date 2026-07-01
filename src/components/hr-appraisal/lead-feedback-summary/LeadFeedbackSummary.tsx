@@ -39,21 +39,21 @@ function LeadFeedbackSummary({
         }
 
         navigate(
-            `/appraisals/${appraisalId}/feedback/${feedbackId}`
+            `/hr/appraisals/${appraisalId}/feedback/${feedbackId}`
         );
     };
 
     const showPending =
-        appraisalStatus === "INITIATED";
+        appraisalStatus=== "INITIATED";
 
     const showLeadSelection =
-        appraisalStatus === "SELF_APPRAISED";
+        appraisalStatus=== "SELF-APPRAISED";
 
     const showFeedbacks = [
-        "INITIATE_FEEDBACK",
-        "FEEDBACK_SUBMITTED",
-        "MEETING_DONE",
-        "APPRAISAL_DONE"
+        "INITIATE FEEDBACK",
+        "FEEDBACK SUBMITTED",
+        "MEETING DONE",
+        "DONE"
     ].includes(appraisalStatus);
 
     return (

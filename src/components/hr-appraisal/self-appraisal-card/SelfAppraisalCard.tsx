@@ -22,7 +22,7 @@ function SelfAppraisalCard({
 }: SelfAppraisalCardProps) {
 
     const showContent =
-        appraisalStatus !== "INITIATED";
+        appraisalStatus.toUpperCase() !== "INITIATED";
 
     const validSections = sections.filter(
         section => section.content?.trim()

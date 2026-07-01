@@ -40,7 +40,6 @@ const router = createBrowserRouter([
           {path: "appraisals/:appraisalId/feedback/:feedbackId", element:<Feedback />},
           {path: "cycles", element: <Cycles />},
           {path: "cycles/:id", element: <CycleDetails />},
-          {path: "appraisals/:id", element: <CycleDetails />},
           {path: "users", element: <UserList/>},
           {path: "createuser", element: <CreateUser/>},
           {path: "edituser/:postId", element: <EditUser/>}, ]

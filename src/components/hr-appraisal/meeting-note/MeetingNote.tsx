@@ -14,7 +14,7 @@ import {
     useUpdateMeetingNotesMutation,
 } from "../../../api_service/appraisal/appraisal.api";
 
-import "./MeetingNotes.css";
+import "./MeetingNote.css";
 import type { AppraisalStatus } from "../../../types/appraisal";
 
 interface MeetingNotesProps {
@@ -29,7 +29,8 @@ function MeetingNotes({
 
     const {
         data: meetingNotesData,
-        isLoading
+        isLoading,
+        refetch
     } = useGetAppraisalMeetingNotesQuery(
         appraisalId,
         {
@@ -56,13 +57,13 @@ function MeetingNotes({
 
     const isReadOnly =
         appraisalStatus ===
-        "APPRAISAL_DONE";
+        "DONE";
 
     const canEdit =
         appraisalStatus ===
-            "FEEDBACK_SUBMITTED" ||
+            "FEEDBACK SUBMITTED" ||
         appraisalStatus ===
-            "MEETING_DONE";
+            "MEETING DONE";
 
     useEffect(() => {
 
@@ -79,7 +80,7 @@ function MeetingNotes({
 
         const payload = {
             meeting_notes:
-                trimmedNotes
+                trimmedNotes? trimmedNotes :""
         };
 
         try {
@@ -100,7 +101,7 @@ function MeetingNotes({
                 }).unwrap();
 
             }
-
+            await refetch();
             setIsEditing(false);
 
         }
