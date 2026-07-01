@@ -16,7 +16,7 @@ function sideBarHR() {
 
 
 function ifSelectedReturnClassName(link: string, location: string) {
-    if (link === location) {
+    if (location.includes(link) && !(link === "/hr" &&location !== "/hr")) {
         return "side-bar-item side-bar-item-selected"
     }
     return "side-bar-item"
