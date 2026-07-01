@@ -2,7 +2,7 @@ import userBaseApi from "../api";
 import type { ListResponse } from "./types";
 
 export interface AppraisalCycle {
-  id: string;
+  id: number;
   name: string; 
   start_date: string;
   end_date: string;
