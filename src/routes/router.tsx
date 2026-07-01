@@ -12,6 +12,8 @@ import PageUser from "../pages/PageUser";
 import Appraisal from "../components/appraisals/SelfAppraisals";
 import AppraisalList from "../components/appraisals/AppraisalList";
 import SelfAppraisal from "../components/appraisals/SelfAppraisals";
+import LeadFeedback from "../components/lead_feedback/LeadFeedBack";
+import LeadFeedbackList from "../components/lead_feedback/LeadFeedBackList";
 
 const router = createBrowserRouter([
   {
@@ -42,8 +44,8 @@ const router = createBrowserRouter([
         children: [
           {index: true, element: <span>Dashboard Employee</span>},
           {path: "appraisals", element: <AppraisalList />},
-          { path: "appraisals/:appraisalId", element: <SelfAppraisal /> },
-          {path: "lead_feedback", element: <span>Users</span>},
+          {path: "appraisals/:appraisalId", element: <SelfAppraisal /> },
+          {path: "lead_feedback", element: <LeadFeedbackList/>},
         ],
       },
     ],

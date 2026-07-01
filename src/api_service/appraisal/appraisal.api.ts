@@ -44,7 +44,7 @@ export const appraisalApi = userBaseApi.injectEndpoints({
     }),
 
     getEmployeeAppraisalHistory: builder.query({
-      query: () => `appraisal/appraisals`,
+      query: (id:number) => `appraisal/${id}/appraisals`,
       providesTags: ["Appraisals"],
     }),
   }),

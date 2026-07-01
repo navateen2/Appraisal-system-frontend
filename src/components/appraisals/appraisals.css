@@ -47,7 +47,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    background: #2f6fae;
+    background: #0C4E77;
     color: white;
     border: none;
     padding: 14px 26px;
@@ -60,7 +60,7 @@
   }
   
   .submit-btn:hover {
-    background: #255f99;
+    background: #0C4E77;
     transform: translateY(-2px);
   }
   
