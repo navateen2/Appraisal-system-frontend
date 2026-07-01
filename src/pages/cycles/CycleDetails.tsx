@@ -41,7 +41,7 @@ function CycleDetails() {
           <span className="column-id">APPRAISAL ID</span>
           <span className="column-id">EMPLOYEE ID</span>
           <span className="column-name">EMPLOYEE NAME</span>
-          <span className="column-status">STATUS</span>
+          {cycleData?.status !== "Initiated" && <span className="column-status">STATUS</span>}
         </div>
         {appraisals.isLoading && <div>Loading...</div>}
         {appraisals.data?.map((appraisal) => (
@@ -51,6 +51,7 @@ function CycleDetails() {
             emp_id={appraisal.employee_id.toString()}
             name={appraisal.employee_name}
             status={appraisal.status}
+            clickable={cycleData?.status !== "Initiated"}
           />
         ))}
       </div>
@@ -83,16 +84,16 @@ const getStatus = (status: string) => {
   )
 }
 
-function AppraisalRow({ id, emp_id, name, status }: { id: string, emp_id: string, name: string, status: string }) {
+function AppraisalRow({ id, emp_id, name, status,clickable }: { id: string, emp_id: string, name: string, status: string ,clickable: boolean}) {
   const navigate = useNavigate();
   return (
-    <div className="cycles-row" onClick={() => navigate(`/hr/appraisals/${id}`)}>
+    <div className="cycles-row" onClick={() =>  clickable && navigate(`/hr/appraisals/${id}`)}>
       <span className="column-id">{id}</span>
       <span className="column-id">{emp_id}</span>
       <span className="column-name">{name}</span>
-      <span className="column-status">
-        <StatusBadge status={status} />
-      </span>
+      {clickable && <span className="column-status">
+      <StatusBadge status={status} />
+      </span>}
     </div>
   )
 }
