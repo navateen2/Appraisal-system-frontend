@@ -1,7 +1,14 @@
 import { useNavigate } from "react-router"
+import getUserIdFromToken from "../utils/getUserIDfromToken"
+import { useGetUserByIdQuery } from "../api_service/employees/employee.api"
+import { LogOut } from "lucide-react"
 
 function Header() {
     const Navigate = useNavigate()
+    const token = localStorage.getItem("token")
+    if (!token) return "Not Authorized"
+    const user = getUserIdFromToken(token)
+    const getUserdetails = useGetUserByIdQuery(Number(user?.id))
     return (
         <div className="header">
             <div className="header-name">
@@ -12,12 +19,17 @@ function Header() {
                 </div>
             </div>
             <div className="header-user-info">
-                <img src="/src/assets/bell.svg" alt="" />
-                <div className="vdivider" />
                 <div className="user-info">
-                    <span className="user-name">'User name'</span>
-                    <span className="user-role">'Role'</span>
+                    <span className="user-name">{getUserdetails.data?.name}</span>
+                    <span className="user-role">{user?.role}</span>
                 </div>
+                <div className="vdivider" />
+                <LogOut onClick={()=>{
+                    localStorage.clear()
+                    Navigate("/login")
+                }
+            }/>
+
 
             </div>
         </div>

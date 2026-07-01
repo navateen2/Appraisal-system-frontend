@@ -12,7 +12,7 @@ export interface AppraisalCycle {
 export const cycleApi = userBaseApi.injectEndpoints({
   endpoints: (builder) => ({
     getCycles: builder.query<ListResponse<AppraisalCycle>, void>({
-      query: () => "cycle",
+      query: () => "cycles",
       providesTags: ["Cycles"],
     }),
     getCycleById: builder.query<AppraisalCycle, string>({

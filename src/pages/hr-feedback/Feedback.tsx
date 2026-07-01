@@ -12,8 +12,8 @@ import {
     ArrowLeft
 } from "lucide-react";
 
-import FeedbackHeader from "../../components/feedback/feedback-header/FeedbackHeader";
-import CompetencyDisplayCard from "../../components/feedback/competency-display-card/CompetencyDisplayCard";
+import FeedbackHeader from "../../components/hr-feedback/feedback-header/FeedbackHeader";
+import CompetencyDisplayCard from "../../components/hr-feedback/competency-display-card/CompetencyDisplayCard";
 
 import "./Feedback.css";
 

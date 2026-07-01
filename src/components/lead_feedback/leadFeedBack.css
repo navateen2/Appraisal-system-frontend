@@ -1,0 +1,342 @@
+* {
+    box-sizing: border-box;
+    font-family: "Inter", sans-serif;
+}
+
+.feedback-page {
+    width: 100%;
+    min-height: 100vh;
+    background: #f7f9fc;
+    padding: 36px;
+}
+
+/* ================= HEADER ================= */
+
+.feedback-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 32px;
+}
+
+.feedback-header h1 {
+    font-size: 52px;
+    font-weight: 700;
+    color: #2b6597;
+    margin-bottom: 14px;
+}
+
+.header-badges {
+    display: flex;
+    gap: 12px;
+}
+
+.badge {
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: white;
+    border: 1px solid #dfe8f1;
+    font-weight: 600;
+    color: #2d2d2d;
+}
+
+.badge.blue {
+    background: #d9ebff;
+    color: #2c6fb7;
+}
+
+.submit-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: none;
+    cursor: pointer;
+    color: white;
+    background: #0C4E77;
+    border-radius: 12px;
+    padding: 14px 24px;
+    font-size: 18px;
+    font-weight: 600;
+    box-shadow: 0 8px 18px rgba(0,0,0,.08);
+    transition: .25s;
+}
+
+.submit-btn:hover {
+    background: #0C4E77;
+}
+
+/* ================= LAYOUT ================= */
+
+.feedback-content {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 24px;
+    align-items: start;
+}
+
+/* ================= CARDS ================= */
+
+.competency-card,
+.feedback-card,
+.mini-card {
+    background: white;
+    border-radius: 18px;
+    border: 1px solid #e7edf4;
+    box-shadow: 0 8px 20px rgba(0,0,0,.04);
+}
+
+.competency-card {
+    min-height: 600px;
+    padding: 20px;
+}
+
+.feedback-card {
+    padding: 20px;
+}
+
+.mini-card {
+    padding: 20px;
+    flex: 1;
+}
+
+/* ================= TITLES ================= */
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.section-title h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #252525;
+}
+
+.section-title svg {
+    color: #2c6fb7;
+}
+
+.scale-tag {
+    background: #d8ebff;
+    color: #44627f;
+    font-size: 13px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+.divider {
+    margin: 18px 0;
+    border-bottom: 1px solid #edf2f7;
+}
+
+/* ================= SEARCH ================= */
+
+.search-box {
+    position: relative;
+    margin-bottom: 18px;
+}
+
+.search-box svg {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    color: #6d7783;
+}
+
+.search-box input {
+    width: 100%;
+    height: 44px;
+    border-radius: 15px;
+    border: 1px solid #cfd7e5;
+    padding-left: 42px;
+    font-size: 15px;
+    outline: none;
+}
+
+.search-box input:focus {
+    border-color: #2d6ea9;
+    box-shadow: 0 0 0 3px rgba(45,110,169,.12);
+}
+
+/* ================= SUGGESTIONS ================= */
+
+.suggestions {
+    border: 1px solid #dfe6ef;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 18px;
+}
+
+.suggestion {
+    padding: 10px 16px;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.suggestion:hover {
+    background: #eef6ff;
+}
+
+/* ================= COMPETENCIES ================= */
+
+.competency-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.competency-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #d8e1ea;
+    border-radius: 14px;
+    padding: 12px 16px;
+}
+
+.competency-row span:first-child {
+    font-weight: 600;
+    color: #4f6076;
+}
+
+.score-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.score-box input {
+    width: 40px;
+    height: 28px;
+    border: 1px solid #9eb6e6;
+    text-align: center;
+    border-radius: 4px;
+    outline: none;
+    color: #243d77;
+    font-weight: 700;
+}
+
+.score-box svg {
+    cursor: pointer;
+    color: #222;
+}
+
+/* ================= RIGHT ================= */
+
+.feedback-right {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.feedback-card label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #3f3f3f;
+}
+
+.feedback-card textarea {
+    min-height: 190px;
+}
+
+/* ================= MINI CARDS ================= */
+
+.bottom-cards {
+    display: flex;
+    gap: 24px;
+}
+
+.mini-card textarea {
+    min-height: 140px;
+}
+
+.mini-card small {
+    display: block;
+    margin-top: 10px;
+    color: #6e7785;
+    line-height: 1.6;
+}
+
+/* ================= TEXTAREA ================= */
+
+textarea {
+    width: 100%;
+    resize: none;
+    border: 1px solid #cfd7e5;
+    border-radius: 10px;
+    padding: 16px;
+    font-size: 16px;
+    line-height: 1.7;
+    outline: none;
+    transition: .2s;
+}
+
+textarea:focus {
+    border-color: #2d6ea9;
+    box-shadow: 0 0 0 3px rgba(45,110,169,.1);
+}
+
+textarea::placeholder {
+    color: #9ca8b6;
+}
+
+/* ================= FOOTER ================= */
+
+.footer-row {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: #6f7b8b;
+}
+
+/* ================= HOVER ================= */
+
+.competency-card:hover,
+.feedback-card:hover,
+.mini-card:hover {
+    box-shadow: 0 12px 24px rgba(0,0,0,.06);
+}
+
+.competency-row:hover {
+    background: #fbfdff;
+}
+
+/* ================= SCROLLBAR ================= */
+
+textarea::-webkit-scrollbar {
+    width: 8px;
+}
+
+textarea::-webkit-scrollbar-thumb {
+    background: #c6d2df;
+    border-radius: 20px;
+}
+
+/* ================= REMOVE INPUT SPIN BUTTON ================= */
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    appearance: textfield;
+}
+
+/* ================= SELECTION ================= */
+
+::selection {
+    background: #2d6ea9;
+    color: white;
+}

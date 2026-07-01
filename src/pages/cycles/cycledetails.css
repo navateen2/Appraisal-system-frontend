@@ -1,0 +1,93 @@
+.cycle-details{
+  padding: 24px;
+}
+
+.cycle-details-header{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  height:120px;
+  border: 1px solid #C8C4D5;
+  border-radius: 8px;
+}
+
+.cycle-details-header-info{
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+}
+
+.cycle-details-header-title{
+  font-size: 28px;
+  font-weight: 600;
+  color: #1B1B22;
+}
+
+
+.cycle-details-header-left{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-bottom: 30px;
+}
+.status-badge{
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 14px;
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 12px;
+    background-color: #1F108E1A;
+    color: #1F108E
+}
+
+.status-in-progress{
+    background-color: #DCFCE7;
+    color: #15803D;
+}
+
+.status-completed{
+    background-color: #E4E1EB;
+    color: #464553;
+}
+
+.status-initiated{
+    background-color: #FFDBCC;
+    color: #845238;
+}
+
+.Appraisals-table{
+    width: 100%;
+    /* margin-top: 24px; */
+    border-radius: 14px;
+    border: 1px solid #C8C4D5;
+}
+
+.mark-cycle-complete-button{
+  width: 228px;
+  height: 48px;
+  border-radius: 14px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  gap: 8px;
+  background-color: #E4E1EB;
+  border: 0px;
+  color: #464553
+} 
+
+.start-cycle-button{
+  width: 182px;
+  height: 48px;
+  border-radius: 14px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  gap: 8px;
+  background-color: #DCFCE7;
+  border: 0px;
+  color: #15803D
+} 

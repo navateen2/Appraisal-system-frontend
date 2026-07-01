@@ -1,4 +1,6 @@
+import { useNavigate } from "react-router";
 import "./cycles.css";
+import { useGetCyclesQuery } from "../../api_service/cycle/cycle.api";
 
 function Cycles() {
     return (
@@ -21,9 +23,17 @@ function Cycles() {
                     <span className="column-daterange">DATE RANGE</span>
                     <span className="column-status">STATUS</span>
                 </div>
-                <CyclesRow id="1" name="Cycle 1" dateRange="01/01/2023 - 31/01/2023" status="IN PROGRESS" />
-                <CyclesRow id="2" name="Cycle 2" dateRange="01/02/2023 - 28/02/2023" status="COMPLETED" />
-                <CyclesRow id="3" name="Cycle 3" dateRange="01/03/2023 - 31/03/2023" status="INITIATED" />
+                
+                {useGetCyclesQuery().isLoading && <div>Loading...</div>}
+                {useGetCyclesQuery().data?.map((cycle: any) => (
+                <CyclesRow
+                    key={cycle.id}
+                    id={cycle.id}
+                    name={cycle.name}
+                    dateRange={cycle.start_date.substring(0, 10) + " - " + cycle.end_date.substring(0, 10)}
+                    status={cycle.status}
+                />
+                ))}
             </div>
             
         </div>
@@ -31,8 +41,9 @@ function Cycles() {
 }
 
 function CyclesRow({id, name, dateRange, status}:{id: string, name: string, dateRange: string, status: string}) {
+    const navigate = useNavigate();
     return (
-        <div className="cycles-row">
+        <div className="cycles-row" onClick={() => navigate(`/hr/cycles/${id}`)}>
             <span className="column-id">{id}</span>
             <span className="column-name">{name}</span>
             <span className="column-daterange">{dateRange}</span>
@@ -45,9 +56,9 @@ function CyclesRow({id, name, dateRange, status}:{id: string, name: string, date
 
 function StatusBadge({status}:{status: string}) {
     const statusClass:any = {
-        "IN PROGRESS": "status-in-progress",
-        "COMPLETED": "status-completed",
-        "INITIATED": "status-initiated",
+        "In Progress": "status-in-progress",
+        "Completed": "status-completed",
+        "Initiated": "status-initiated",
     }
     return (
         <span className={`status-badge ${statusClass[status]}`}> {status} </span>
