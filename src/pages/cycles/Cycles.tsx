@@ -43,7 +43,7 @@ function Cycles() {
 function CyclesRow({id, name, dateRange, status}:{id: string, name: string, dateRange: string, status: string}) {
     const navigate = useNavigate();
     return (
-        <div className="cycles-row" onClick={() => navigate(`/cycles/${id}`)}>
+        <div className="cycles-row" onClick={() => navigate(`/hr/cycles/${id}`)}>
             <span className="column-id">{id}</span>
             <span className="column-name">{name}</span>
             <span className="column-daterange">{dateRange}</span>
