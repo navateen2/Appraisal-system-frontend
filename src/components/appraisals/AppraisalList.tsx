@@ -10,7 +10,7 @@ const token = localStorage.getItem("token")
 if (!token) return "Not Authorized"
 const user = getUserIdFromToken(token)
   const { data, isLoading, isError } =
-    useGetEmployeeAppraisalHistoryQuery(user?.id);
+    useGetEmployeeAppraisalHistoryQuery(Number(user?.id));
 
   if (isLoading) {
     return <h2>Loading appraisals...</h2>;
@@ -87,7 +87,7 @@ const user = getUserIdFromToken(token)
             </div>
 
             <div className="actions">
-              <button className="view-btn" onClick={() => navigate(`/appraisals/${appraisal.id}`,{
+              <button className="view-btn" onClick={() => navigate(`/employee/appraisals/${appraisal.id}`,{
                 state:{appraisal,}}
               )}>
                 <Eye size={18} />
