@@ -97,6 +97,8 @@
 .column-daterange{
     width: 200px;
     justify-content: left;
+    text-wrap: nowrap;
+
 }
 
 .column-status{
