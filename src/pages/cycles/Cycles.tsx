@@ -93,8 +93,8 @@ function CreateCycle({ fn }: { fn: (arg0: boolean) => void }) {
         employee.name.toLowerCase().includes(search.toLowerCase())
     );
     async function handleSubmit() {
-        if (name.length < 3) {
-            alert("Name must be at least 3 characters long");
+        if (name.length < 3 || name.length > 50) {
+            alert("Name must be between 3 and 50 characters long");
             return;
         }
         if (startDate === "" || endDate === "") {
@@ -108,8 +108,8 @@ function CreateCycle({ fn }: { fn: (arg0: boolean) => void }) {
         try{
             const response_cycle= await createCycle({
                 "name": name,
-                "start_date": startDate,
-                "end_date": endDate,
+                "start_date": correctDate(startDate),
+                "end_date": correctDate(endDate),
                 "status": "Initiated"
             }).unwrap();
             console.log(response_cycle.id);
@@ -132,7 +132,7 @@ function CreateCycle({ fn }: { fn: (arg0: boolean) => void }) {
             <div className="create-cycle-form">
                 <div className="create-cycle-form-header">
                     <span className="create-cycle-form-title">Create Appraisal Cycle</span>
-                    <img src="/src/assets/close.svg" alt="" className="create-cycle-form-close" />
+                    <img src="/src/assets/close.svg" alt="" className="create-cycle-form-close" onClick={()=>fn(false)} />
                 </div>
                 <div className="create-cycle-form-body">
                     <span className="create-cycle-form-label">CYCLE DETAILS</span>

@@ -54,7 +54,7 @@ export const cycleApi = userBaseApi.injectEndpoints({
       }),
       invalidatesTags: ["Cycles"],
     }),
-    updateCycle: builder.mutation<AppraisalCycle, { id: string } & Partial<AppraisalCycle>>({
+    updateCycle: builder.mutation<AppraisalCycle, { id: number } & Partial<AppraisalCycle>>({
       query: ({ id, ...body }) => ({
         url: `cycles/${id}`,
         method: "PUT",

@@ -1,16 +1,23 @@
 import { useNavigate, useParams } from "react-router";
 import "./cycledetails.css";
-import { useGetCycleByIdQuery, useGetAppraisalsByCycleIdQuery, useUpdateCycleStatusMutation, useDeleteCycleMutation } from "../../api_service/cycle/cycle.api";
+import { useGetCycleByIdQuery, useGetAppraisalsByCycleIdQuery, useUpdateCycleStatusMutation, useDeleteCycleMutation, useUpdateCycleMutation, useAssignEmployeesToCycleMutation } from "../../api_service/cycle/cycle.api";
 import { Pen, Trash2 } from "lucide-react";
 import { useState } from "react";
+import { useGetUsersQuery } from "../../api_service/employees/employee.api";
 
+function correctDate(date: string) {
+    console.log(date);
+    const [year, month, day] = date.split("-");
+    return `${year}-${month}-${day}`;
+}
 function CycleDetails() {
   const { id } = useParams()
-  const cycle = useGetCycleByIdQuery(id);
-  const appraisals = useGetAppraisalsByCycleIdQuery(id);
+  const cycle = useGetCycleByIdQuery(id || "0");
+  const appraisals = useGetAppraisalsByCycleIdQuery( Number(id) || 0);
   const cycleData = cycle.data;
   const [updateCycleStatus] = useUpdateCycleStatusMutation();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   console.log(cycleData);
   return (
     <div className="cycle-details">
@@ -18,14 +25,14 @@ function CycleDetails() {
         <div className="cycle-details-header-left">
           <div className="cycle-details-header-info">
             {getDateRange(cycleData?.start_date, cycleData?.end_date)}
-            {getStatus(cycleData?.status)}
+            {cycleData?.status && getStatus(cycleData.status)}
           </div>
-          <span className="cycle-details-header-title">Developer Cycle</span>
+          <span className="cycle-details-header-title">{cycleData?.name || "Developer"} Cycle</span>
         </div>
         {cycleData?.status === 'In Progress' && <MarkCycleCompleteButton fn={() => updateCycleStatus({ body: { status: "Completed" }, cycle_id: parseInt(id || "0") })} />}
         {cycleData?.status === 'Initiated' && <div className="button-pair">
           <StartCycleButton fn={() => updateCycleStatus({ body: { status: "In Progress" }, cycle_id: parseInt(id || "0") })} />
-          <ButtonPair fn={setShowDeleteModal} />
+          <ButtonPair fnDelete={setShowDeleteModal} fnEdit={setShowEditModal} />
         </div>
         }
       </div>
@@ -47,7 +54,8 @@ function CycleDetails() {
           />
         ))}
       </div>
-      {showDeleteModal && <DeleteCycleModal fn={setShowDeleteModal} toggle={showDeleteModal} cycle={cycleData} />}
+      {showDeleteModal && <DeleteCycleModal fn={setShowDeleteModal}  cycle={cycleData} />}
+      {showEditModal && <EditCycle fn={setShowEditModal} cycle={cycleData} />}
     </div>
   );
 }
@@ -62,7 +70,7 @@ const getDateRange = (start_date?: string, end_date?: string) => {
   )
 }
 
-const getStatus = (status?: string) => {
+const getStatus = (status: string) => {
   const statusClass: any = {
     "In Progress": "status-in-progress",
     "Completed": "status-completed",
@@ -119,16 +127,16 @@ function StartCycleButton({ fn }: { fn: any }) {
   )
 }
 
-function ButtonPair({fn}: {fn: any}) {
+function ButtonPair({fnDelete,fnEdit}: {fnDelete: any, fnEdit: any}) {
   return (
     <div className="button-pair">
-      <Trash2 onClick={() => fn(true)} />
-      <Pen />
+      <Trash2 onClick={() => fnDelete(true)} />
+      <Pen onClick={() => fnEdit(true)} />
     </div>
   )
 }
 
-function DeleteCycleModal({ fn, toggle, cycle }: { fn: any, toggle: Boolean,cycle: any }) {
+function DeleteCycleModal({ fn,  cycle }: { fn: any, cycle: any }) {
   const [deleteCycle] = useDeleteCycleMutation();
   const navigate = useNavigate();
   return (
@@ -177,4 +185,184 @@ function handleDelete(id:number, deleteCycle: any) {
   console.log("Deleting cycle:", id);
 }
 
+
+function EditCycle({ fn ,cycle }: { fn: (arg0: boolean) => void, cycle: any }) {
+    const [name, setName] = useState(cycle?.name || "");
+    const [startDate, setStartDate] = useState(cycle?.start_date || "");
+    const [endDate, setEndDate] = useState(cycle?.end_date || "");
+    const [editCycle,] = useUpdateCycleMutation();
+
+    async function handleSubmit() {
+        if (name.length < 3) {
+            alert("Name must be at least 3 characters long");
+            return;
+        }
+        if (startDate === "" || endDate === "") {
+            alert("Start date and end date must be selected");
+            return;
+        }
+        if (startDate > endDate) {
+            alert("Start date cannot be after end date");
+            return;
+        }
+        try{
+            await editCycle({
+                "id": cycle?.id,
+                "name": name,
+                "start_date": correctDate(startDate),
+                "end_date": correctDate(endDate),
+            }).unwrap();
+        } catch (err) {
+        console.error(err);
+     }
+        
+
+        fn(false);
+    }
+    return (
+        <div className="overlay">
+
+            <div className="create-cycle-form">
+                <div className="create-cycle-form-header">
+                    <span className="create-cycle-form-title">Edit Appraisal Cycle</span>
+                    <img src="/src/assets/close.svg" alt="" className="create-cycle-form-close" onClick={()=>fn(false)}/>
+                </div>
+                <div className="create-cycle-form-body">
+                    <span className="create-cycle-form-label">CYCLE DETAILS</span>
+                    <div className="form-pair">
+                        <span className="form-pair-name">Cycle Name</span>
+                        <input type="text" className="form-pair-input" value={name} onChange={(e) => setName(e.target.value)} />
+                        {((name.length < 3 || name.length > 50) && name.length != 0) && <span className="validation-error">Name must be between 3 and 50 characters</span>}
+                    </div>
+                    <div className="date-pair">
+                        <div className="form-pair">
+                            <span className="form-pair-name" >Start Date</span>
+                            <input type="date" defaultValue={startDate.substring(0, 10)} className="form-pair-input" onClick={(e) => e.currentTarget.showPicker?.()} onChange={(e) => setStartDate((e.currentTarget.value))} />
+                        </div>
+                        <div className="form-pair">
+                            <span className="form-pair-name">End Date</span>
+                            <input type="date" defaultValue={endDate.substring(0, 10)} className="form-pair-input" onClick={(e) => e.currentTarget.showPicker?.()} onChange={(e) => setEndDate((e.currentTarget.value))} />
+                        </div>
+                    
+                    
+                    </div>
+                </div>
+                <div className="create-cycle-form-footer">
+                    <button className="create-cycle-form-cancel" onClick={() => fn(false)}>
+                        Cancel
+                    </button>
+                    <button className="create-cycle-form-submit" onClick={handleSubmit}>Edit Cycle</button>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+// function EditCycleAppraisals({ fn ,cycle }: { fn: (arg0: boolean) => void, cycle: any }) {
+//     const [name, setName] = useState(cycle?.name || "");
+//     const [startDate, setStartDate] = useState(cycle?.start_date || "");
+//     const [endDate, setEndDate] = useState(cycle?.end_date || "");
+//     const [editCycle,] = useUpdateCycleMutation();
+//     const employees = useGetUsersQuery();
+//     // const getAppraisals = useGetAppraisalsByCycleIdQuery(cycle?.id || 0);
+//     // console.log(employees?.data);
+//     const [search, setSearch] = useState("");
+//     const [selectedEmployees, setSelectedEmployees] = useState<any[]>([]);
+//     // selectedEmployees.push();
+//     const [addEmployeesToCycle,] = useAssignEmployeesToCycleMutation()
+
+
+//     const filteredEmployees = employees.data?.filter((employee: any) =>
+//         employee.name.toLowerCase().includes(search.toLowerCase())
+//     );
+
+//     async function handleSubmit() {
+//         if (name.length < 3) {
+//             alert("Name must be at least 3 characters long");
+//             return;
+//         }
+//         if (startDate === "" || endDate === "") {
+//             alert("Start date and end date must be selected");
+//             return;
+//         }
+//         if (startDate > endDate) {
+//             alert("Start date cannot be after end date");
+//             return;
+//         }
+//         try{
+//             const response_cycle= await editCycle({
+//                 "id": cycle?.id,
+//                 "name": name,
+//                 "start_date": correctDate(startDate),
+//                 "end_date": correctDate(endDate),
+//             }).unwrap();
+//             console.log(response_cycle.id);
+//             await addEmployeesToCycle({
+//                 "cycle_id": response_cycle.id,
+//                 "body": {
+//                     "employee_ids": selectedEmployees.map((employee) => employee.id)
+//                 }
+//             }).unwrap();
+//         } catch (err) {
+//         console.error(err);
+//      }
+        
+
+//         fn(false);
+//     }
+//     return (
+//         <div className="overlay">
+
+//             <div className="create-cycle-form">
+//                 <div className="create-cycle-form-header">
+//                     <span className="create-cycle-form-title">Edit Appraisal Cycle</span>
+//                     <img src="/src/assets/close.svg" alt="" className="create-cycle-form-close" onClick={()=>fn(false)}/>
+//                 </div>
+//                 <div className="create-cycle-form-body">
+//                     <span className="create-cycle-form-label">ADD EMPLOYEES</span>
+//                     <div className="form-pair">
+//                         <input type="text" className="form-pair-input" placeholder="Search Employees" value={search} onChange={(e) => setSearch(e.target.value)} />
+//                         <div className="form-pair-input filter-list">
+
+//                             {
+//                             filteredEmployees?.map((employee) => (
+//                                 <div key={employee?.id} className="filtered-list-item" onClick={() => {
+//                                     setSearch("");
+//                                     selectedEmployees.push(employee);
+//                                     setSelectedEmployees([...selectedEmployees]);
+//                                     console.log(selectedEmployees)
+//                                     }
+//                                     }>
+//                                     {employee?.name}
+//                                 </div>
+//                             )
+//                         )
+//                             }
+
+//                         </div>
+//                         <div className="form-pair-input filtered-list">
+
+//                             {
+//                             selectedEmployees?.map((employee: any) => (
+//                                 <div key={employee?.id} className="filtered-list-item" onClick={() => {setSearch("");}}>
+//                                 {employee?.name}
+//                                 <img src="/src/assets/close.svg" alt="" />
+//                                 </div>
+//                             )
+//                         )
+//                             }
+
+//                         </div>
+//                     </div>
+//                 </div>
+//                 <div className="create-cycle-form-footer">
+//                     <button className="create-cycle-form-cancel" onClick={() => fn(false)}>
+//                         Cancel
+//                     </button>
+//                     <button className="create-cycle-form-submit" onClick={handleSubmit}>Edit Cycle</button>
+//                 </div>
+//             </div>
+//         </div>
+//     )
+// }
 
