@@ -24,7 +24,6 @@ const ProtectedRoute = ({ allowedRoles }: ProtectedRouteProps) => {
   try {
     const payload = jwtDecode<TokenPayload>(token);
 
-    // If roles are specified, enforce them
     if (
       allowedRoles &&
       !allowedRoles.includes(payload.role)

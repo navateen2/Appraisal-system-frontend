@@ -8,6 +8,10 @@ import Error from "../Error";
 import LoginPage from "../pages/login/LoginPage";
 import Cycles from "../pages/cycles/Cycles";
 import CycleDetails from "../pages/cycles/CycleDetails";
+import PageUser from "../pages/PageUser";
+import Appraisal from "../components/appraisals/SelfAppraisals";
+import AppraisalList from "../components/appraisals/AppraisalList";
+import SelfAppraisal from "../components/appraisals/SelfAppraisals";
 
 const router = createBrowserRouter([
   {
@@ -20,19 +24,33 @@ const router = createBrowserRouter([
     errorElement: <Error />,
     children: [
       {
-        path: "/",
+        path: "/hr",
         element: <Page />,
         children: [
           {index: true, element: <span>Dashboard</span>},
           {path: "/cycles", element: <Cycles />},
           {path: "/cycles/:id", element: <CycleDetails />},
-          {path: "/users", element: <span>Users</span>},        ],
+          {path: "/users", element: <span>Users</span>},        ]
+  },
+  {
+    element: <ProtectedRoute allowedRoles={["Employee"]} />,
+    errorElement: <Error />,
+    children: [
+      {
+        path: "/employee",
+        element: <PageUser />,
+        children: [
+          {index: true, element: <span>Dashboard Employee</span>},
+          {path: "appraisals", element: <AppraisalList />},
+          { path: "appraisals/:appraisalId", element: <SelfAppraisal /> },
+          {path: "lead_feedback", element: <span>Users</span>},
+        ],
       },
     ],
   },
   {
     path: "*",
-    element: <Navigate to="/" replace />,
+    element: <Navigate to="/login" replace />,
   },
 ]);
 

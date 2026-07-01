@@ -42,8 +42,14 @@ export const appraisalApi = userBaseApi.injectEndpoints({
       }),
       invalidatesTags: ["Appraisals"],
     }),
+
+    getEmployeeAppraisalHistory: builder.query({
+      query: () => `appraisal/appraisals`,
+      providesTags: ["Appraisals"],
+    }),
   }),
 });
+
 
 export const {
   useGetAppraisalsQuery,
@@ -51,4 +57,6 @@ export const {
   useCreateAppraisalMutation,
   useUpdateAppraisalMutation,
   useDeleteAppraisalMutation,
+  useGetEmployeeAppraisalHistoryQuery,
+
 } = appraisalApi;
