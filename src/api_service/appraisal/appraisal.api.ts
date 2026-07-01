@@ -1,5 +1,5 @@
 import userBaseApi from "../api";
-import type { ListResponse } from "./types";
+import type { IDPCreateUpdate, IDPResponse, ListResponse, MeetingNotesCreateUpdate, MeetingNotesGetResponse, MeetingNotesMutationResponse } from "./types";
 
 export const appraisalApi = userBaseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -34,7 +34,6 @@ export const appraisalApi = userBaseApi.injectEndpoints({
       ],
     }),
     
-    // 5. Permanent deletion removal handling
     deleteAppraisal: builder.mutation({
       query: (id) => ({
         url: `appraisal/${id}`,
@@ -48,6 +47,52 @@ export const appraisalApi = userBaseApi.injectEndpoints({
       providesTags: ["Appraisals"],
     }),
 
+    getAppraisalIdp: builder.query<IDPResponse, number>({
+      query: (appraisalId) => `appraisal/${appraisalId}/idp`,
+      providesTags: ["Appraisals"],
+    }),
+
+    createIdpText: builder.mutation<IDPResponse, { appraisalId: number; body: IDPCreateUpdate }>({
+      query: ({ appraisalId, body }) => ({
+        url: `appraisal/${appraisalId}/idp`,
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["Appraisals"],
+    }),
+
+    updateIdpText: builder.mutation<IDPResponse, { appraisalId: number; body: IDPCreateUpdate }>({
+      query: ({ appraisalId, body }) => ({
+        url: `appraisal/${appraisalId}/idp`,
+        method: "PUT",
+        body,
+      }),
+      invalidatesTags: ["Appraisals"],
+    }),
+
+    getAppraisalMeetingNotes: builder.query<MeetingNotesGetResponse, number>({
+      query: (appraisalId) => `appraisal/${appraisalId}/meeting-notes`,
+      providesTags: ["Appraisals"],
+    }),
+
+    createMeetingNotes: builder.mutation<MeetingNotesMutationResponse, { appraisalId: number; body: MeetingNotesCreateUpdate }>({
+      query: ({ appraisalId, body }) => ({
+        url: `appraisal/${appraisalId}/meeting-notes`,
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["Appraisals"],
+    }),
+
+    updateMeetingNotes: builder.mutation<MeetingNotesMutationResponse, { appraisalId: number; body: MeetingNotesCreateUpdate }>({
+      query: ({ appraisalId, body }) => ({
+        url: `appraisal/${appraisalId}/meeting-notes`,
+        method: "PUT",
+        body,
+      }),
+      invalidatesTags: ["Appraisals"],
+    }),
+    
     updateAppraisalStatus: builder.mutation({
       query: ({
         appraisalId,
@@ -78,5 +123,11 @@ export const {
   useUpdateAppraisalMutation,
   useDeleteAppraisalMutation,
   useGetEmployeeAppraisalHistoryQuery,
+  useGetAppraisalIdpQuery,
+  useCreateIdpTextMutation,
+  useUpdateIdpTextMutation,
+  useGetAppraisalMeetingNotesQuery,
+  useCreateMeetingNotesMutation,
+  useUpdateMeetingNotesMutation,
   useUpdateAppraisalStatusMutation
 } = appraisalApi;

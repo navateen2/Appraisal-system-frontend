@@ -1,0 +1,48 @@
+.idp-card {
+    background: white;
+
+    border: 1px solid #E6ECF2;
+    border-radius: 12px;
+
+    padding: 18px 22px;
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+.idp-header {
+    display: flex;
+    align-items: center;
+}
+
+.idp-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    color: #4F0FB5;
+
+    font-size: 1.75rem;
+    font-weight: 700;
+}
+
+.idp-divider {
+    height: 1px;
+
+    background: #EEF2F6;
+
+    margin: 14px 0 16px;
+}
+
+.idp-content {
+    color: #495463;
+
+    font-size: 1.05rem;
+    line-height: 1.7;
+
+    white-space: pre-wrap;
+}
+
+.idp-placeholder {
+    color: #96A1AF;
+}

@@ -1,0 +1,105 @@
+.appraisal-header-card {
+    width: 100%;
+    min-height: 110px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 28px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.appraisal-header-left {
+    display: flex;
+    align-items: center;
+}
+
+.employee-name {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1b1b22;
+}
+
+.appraisal-header-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+}
+
+.header-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #6b7280;
+}
+
+.cycle-name {
+    margin: 0;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.status-badge {
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    width: fit-content;
+}
+
+.status-initiated {
+    background: #f6e6dc;
+    color: #9c5a37;
+}
+
+.status-self-appraised {
+    background: #f6e6dc;
+    color: #9c5a37;
+}
+
+.status-feedback {
+    background: #f6e6dc;
+    color: #9c5a37;
+}
+
+.status-feedback-submitted {
+    background: #f6e6dc;
+    color: #9c5a37;
+}
+
+.status-meeting-done {
+    background: #f6e6dc;
+    color: #9c5a37;
+}
+
+.status-appraisal-done {
+    background: #f6e6dc;
+    color: #9c5a37;
+}
+
+@media (max-width: 768px) {
+    .appraisal-header-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .appraisal-header-right {
+        width: 100%;
+        align-items: flex-start;
+    }
+
+    .employee-name {
+        font-size: 1.6rem;
+    }
+
+    .cycle-name {
+        font-size: 1.1rem;
+    }
+}

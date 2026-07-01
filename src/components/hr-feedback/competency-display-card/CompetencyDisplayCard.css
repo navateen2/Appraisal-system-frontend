@@ -1,0 +1,101 @@
+.hr-competency-card {
+    background: white;
+
+    border: 1px solid #EDF1F5;
+    border-radius: 12px;
+
+    padding: 18px 18px 16px;
+
+    min-height: 160px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.competency-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 12px;
+}
+
+.competency-title {
+    font-size: 1.55rem;
+    font-weight: 600;
+
+    color: #4A5565;
+}
+
+.competency-score {
+    min-width: 54px;
+    height: 24px;
+
+    padding: 0 12px;
+
+    border-radius: 999px;
+
+    background: #004D7A;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: white;
+
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+.competency-divider {
+    height: 1px;
+
+    background: #EEF2F6;
+
+    margin-bottom: 14px;
+}
+
+.competency-section {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 8px;
+
+    margin-bottom: 10px;
+}
+
+.competency-section:last-child {
+    margin-bottom: 0;
+}
+
+.strength-icon {
+    color: #0CCE6B;
+
+    margin-top: 5px;
+
+    flex-shrink: 0;
+}
+
+.improvement-icon {
+    color: #0B5C91;
+
+    margin-top: 5px;
+
+    flex-shrink: 0;
+}
+
+.competency-text {
+    font-size: 1.12rem;
+    line-height: 1.45;
+
+    color: #536071;
+
+    font-weight: 500;
+}
+
+.competency-text span {
+    font-weight: 700;
+    color: #46515F;
+
+    margin-right: 4px;
+}

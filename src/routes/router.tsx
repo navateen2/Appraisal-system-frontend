@@ -6,6 +6,8 @@ import ProtectedRoute from "./ProtectedRoute";
 import Page from "../pages/Page";
 import Error from "../Error";
 import LoginPage from "../pages/login/LoginPage";
+import HRAppraisal from "../pages/hr-appraisal/Appraisal";
+import Feedback from "../pages/hr-feedback/Feedback";
 import Cycles from "../pages/cycles/Cycles";
 import CycleDetails from "../pages/cycles/CycleDetails";
 import PageUser from "../pages/PageUser";
@@ -34,10 +36,11 @@ const router = createBrowserRouter([
         path: "/hr",
         element: <Page />,
         children: [
-          {index: true, element: <Dashboard/>},
+          {index: true, element: <Dashboard />},
+          {path: "appraisals/:appraisalId", element:<HRAppraisal />},
+          {path: "appraisals/:appraisalId/feedback/:feedbackId", element:<Feedback />},
           {path: "cycles", element: <Cycles />},
           {path: "cycles/:id", element: <CycleDetails />},
-          {path: "appraisals/:id", element: <CycleDetails />},
           {path: "users", element: <UserList/>},
           {path: "createuser", element: <CreateUser/>},
           {path: "edituser/:postId", element: <EditUser/>},

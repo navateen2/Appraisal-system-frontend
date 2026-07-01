@@ -1,0 +1,119 @@
+.self-appraisal-card {
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #dfe5ec;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.self-appraisal-header {
+    height: 58px;
+    padding: 0 16px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    border-bottom: 1px solid #edf2f7;
+}
+
+.self-appraisal-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    font-size: 16px;
+    font-weight: 700;
+    color: #222222;
+}
+
+.submission-date {
+    font-size: 12px;
+    font-weight: 500;
+    color: #5f6368;
+}
+
+.self-appraisal-empty {
+    min-height: 270px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    gap: 10px;
+}
+
+.empty-text {
+    font-size: 14px;
+    color: #6b7280;
+    text-align: center;
+}
+
+.self-appraisal-content {
+    padding: 16px;
+}
+
+.self-section {
+    margin-bottom: 22px;
+}
+
+.self-section:last-child {
+    margin-bottom: 0;
+}
+
+.section-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: #6b7280;
+    margin-bottom: 10px;
+}
+
+.section-content {
+    font-size: 14px;
+    line-height: 1.9;
+    color: #2f3439;
+    white-space: pre-wrap;
+}
+
+.section-divider {
+    margin-top: 18px;
+    border-top: 1px solid #edf2f7;
+}
+
+.lead-chip-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.lead-chip {
+    padding: 5px 12px;
+
+    background: #dbeafe;
+    border-radius: 14px;
+
+    font-size: 13px;
+    font-weight: 500;
+    color: #556274;
+}
+
+@media (max-width: 768px) {
+    .self-appraisal-header {
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        gap: 6px;
+        padding: 12px 16px;
+        height: auto;
+    }
+
+    .submission-date {
+        font-size: 11px;
+    }
+
+    .self-appraisal-content {
+        padding: 14px;
+    }
+}

@@ -1,0 +1,35 @@
+.employee-selection-item {
+    height: 58px;
+
+    padding: 0 18px;
+
+    border-radius: 10px;
+
+    background: #f7f8fb;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.employee-selection-item:hover {
+    background: #eef5ff;
+}
+
+.employee-selection-name {
+    font-size: 1.45rem;
+    font-weight: 500;
+    color: #2b2b2b;
+}
+
+.employee-selection-icon {
+    color: #4b5563;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
