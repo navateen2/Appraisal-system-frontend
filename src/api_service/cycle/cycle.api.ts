@@ -27,6 +27,9 @@ export interface AppraisalAssignedItemWithName {
   employee_name: string;
 }
 
+export interface CycleStatusUpdate {
+  status: "Initiated" | "In Progress" | "Completed";
+}
 
 export interface BulkAssignmentResponse {
   successfully_assigned: AppraisalAssignedItem[];
@@ -95,6 +98,21 @@ export const cycleApi = userBaseApi.injectEndpoints({
         query: (cycle_id) => `/cycles/${cycle_id}/appraisals`,
         providesTags: (result, error, cycle_id) => [{ type: "CycleAssignments", id: cycle_id }],
       }),
+      updateCycleStatus: builder.mutation<AppraisalCycle,    {
+          cycle_id: number;
+          body: CycleStatusUpdate;
+        }
+      >({
+        query: ({ cycle_id, body }) => ({
+          url: `/cycles/${cycle_id}/status`,
+          method: "PATCH",
+          body,
+        }),
+        invalidatesTags: (result, error, { cycle_id }) => [
+          { type: "Cycles", id: cycle_id },
+          "Cycles",
+        ],
+      }),
     }),
 
     overrideExisting: false,
@@ -110,6 +128,7 @@ export const {
   useAssignEmployeesToCycleMutation,
   useRemoveEmployeeFromCycleMutation,
   useGetAppraisalsByCycleIdQuery,
+  useUpdateCycleStatusMutation,
 } = cycleApi;
 
 

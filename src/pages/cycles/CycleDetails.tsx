@@ -1,12 +1,13 @@
 import { useNavigate, useParams } from "react-router";
 import "./cycledetails.css";
-import { useGetCycleByIdQuery, useGetAppraisalsByCycleIdQuery } from "../../api_service/cycle/cycle.api";
+import { useGetCycleByIdQuery, useGetAppraisalsByCycleIdQuery, useUpdateCycleStatusMutation } from "../../api_service/cycle/cycle.api";
 
 function CycleDetails() {
   const { id } = useParams()
   const cycle = useGetCycleByIdQuery(id);
   const appraisals = useGetAppraisalsByCycleIdQuery(id);
   const cycleData = cycle.data;
+  const [updateCycleStatus] = useUpdateCycleStatusMutation();
   console.log(cycleData);
   return (
     <div className="cycle-details">
@@ -18,8 +19,8 @@ function CycleDetails() {
           </div>
           <span className="cycle-details-header-title">Developer Cycle</span>
         </div>
-        {cycleData?.status === 'In Progress' && <MarkCycleCompleteButton />}
-        {cycleData?.status === 'Initiated' && <StartCycleButton />}
+        {cycleData?.status === 'In Progress' && <MarkCycleCompleteButton fn={() => updateCycleStatus({ body: {status:"Completed"}, cycle_id: parseInt(id || "0") })} />}
+        {cycleData?.status === 'Initiated' && <StartCycleButton fn={() => updateCycleStatus({ body: {status: "In Progress"}, cycle_id: parseInt(id || "0") })} />}
       </div>
       <div className="Appraisals-table">
         <div className="cycles-row column-names">
@@ -91,17 +92,20 @@ function StatusBadge({ status }: { status: string }) {
   )
 }
 
-function MarkCycleCompleteButton() {
+
+
+
+function MarkCycleCompleteButton({ fn }: { fn:any }) {
   return (
-    <button className="mark-cycle-complete-button">
+    <button className="mark-cycle-complete-button" onClick={fn}>
       Mark Cycle Complete
     </button>
   )
 }
 
-function StartCycleButton() {
+function StartCycleButton({ fn }: { fn:any}) {
   return (
-    <button className="start-cycle-button" >
+    <button className="start-cycle-button" onClick={fn}>
       Start Cycle
     </button>
   )
