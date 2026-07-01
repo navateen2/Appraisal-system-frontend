@@ -129,8 +129,8 @@ function StartCycleButton({ fn }: { fn: any }) {
 
 function ButtonPair({fnDelete,fnEdit}: {fnDelete: any, fnEdit: any}) {
   return (
-    <div className="button-pair">
-      <Trash2 onClick={() => fnDelete(true)} />
+    <div className="button-pair hover">
+      <Trash2 onClick={() => fnDelete(true) } />
       <Pen onClick={() => fnEdit(true)} />
     </div>
   )

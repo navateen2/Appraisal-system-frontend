@@ -12,3 +12,7 @@
     font-size: 12px;
     font-weight: 400;
 }
+
+img,button,.hover{
+    cursor: pointer;
+}
