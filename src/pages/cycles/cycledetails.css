@@ -97,13 +97,24 @@
 } 
 
 .filtered-list{
-  max-height: 200px;
+  max-height: 100px;
   overflow-y: auto;
+  gap: 4px;
+  display: flex;
+  flex-direction: column;
+  padding-left: 4px;
+  padding-top: 4px;
 }
 
 .filter-list{
-  max-height: 200px;
+  max-height: 100px;
   overflow-y: auto;
+  gap: 4px;
+  display: flex;
+  flex-direction: column;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-top: 4px;
   /* position: absolute; */
 }
 
@@ -112,7 +123,13 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 4px;
+  padding: 8px;
+  /* font-size: 10px; */
+  font-weight: 600;
+  background-color: #E3E0EA;
+  border-radius: 7px;
+  cursor:pointer;
+  padding-left: 14px;
 }
 
 .button-pair{
@@ -120,4 +137,21 @@
   flex-direction: row;
   gap: 8px;
   align-items: center;
+}
+
+.add-row{
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 16px;
+  width: 170px;
+  padding-right: 16px;
+  height: 48px;
+  border-radius: 14px;
+  border: 1px solid #C8C4D5;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  
 }

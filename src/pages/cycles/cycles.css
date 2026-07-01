@@ -257,7 +257,9 @@
     padding-left: 16px;
     border-width: 1px;
     background: #F9F9FC;
-    border: 1px solid #C1C7CF
+    border: 1px solid #C1C7CF;
+
+    
 }
 
 .create-cycle-form-label{

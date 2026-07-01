@@ -18,6 +18,7 @@ function CycleDetails() {
   const [updateCycleStatus] = useUpdateCycleStatusMutation();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showEditAppraisalsModal, setShowEditAppraisalsModal] = useState(false);
   console.log(cycleData);
   return (
     <div className="cycle-details">
@@ -55,8 +56,13 @@ function CycleDetails() {
           />
         ))}
       </div>
+      <button className="add-row" onClick={() => setShowEditAppraisalsModal(true)}>
+        <img src="/src/assets/add.svg" alt="Add Appraisal" width="24" height="24"  />
+        <span>Edit Appraisals</span>
+      </button>
       {showDeleteModal && <DeleteCycleModal fn={setShowDeleteModal}  cycle={cycleData} />}
       {showEditModal && <EditCycle fn={setShowEditModal} cycle={cycleData} />}
+      {showEditAppraisalsModal && <EditCycleAppraisals fn={setShowEditAppraisalsModal} cycle={cycleData} />}
     </div>
   );
 }
@@ -259,111 +265,89 @@ function EditCycle({ fn ,cycle }: { fn: (arg0: boolean) => void, cycle: any }) {
     )
 }
 
-// function EditCycleAppraisals({ fn ,cycle }: { fn: (arg0: boolean) => void, cycle: any }) {
-//     const [name, setName] = useState(cycle?.name || "");
-//     const [startDate, setStartDate] = useState(cycle?.start_date || "");
-//     const [endDate, setEndDate] = useState(cycle?.end_date || "");
-//     const [editCycle,] = useUpdateCycleMutation();
-//     const employees = useGetUsersQuery();
-//     // const getAppraisals = useGetAppraisalsByCycleIdQuery(cycle?.id || 0);
-//     // console.log(employees?.data);
-//     const [search, setSearch] = useState("");
-//     const [selectedEmployees, setSelectedEmployees] = useState<any[]>([]);
-//     // selectedEmployees.push();
-//     const [addEmployeesToCycle,] = useAssignEmployeesToCycleMutation()
+function EditCycleAppraisals({ fn ,cycle }: { fn: (arg0: boolean) => void, cycle: any }) {
+    const employees = useGetUsersQuery();
+    // const getAppraisals = useGetAppraisalsByCycleIdQuery(cycle?.id || 0);
+    // console.log(employees?.data);
+    const [search, setSearch] = useState("");
+    const [selectedEmployees, setSelectedEmployees] = useState<any[]>([]);
+    // selectedEmployees.push();
+    const [addEmployeesToCycle,] = useAssignEmployeesToCycleMutation()
 
+    const filteredEmployees = employees.data?.filter((employee: any) =>
+        employee.name.toLowerCase().includes(search.toLowerCase()) && !selectedEmployees.some((selected) => selected.id === employee.id)
+    );
 
-//     const filteredEmployees = employees.data?.filter((employee: any) =>
-//         employee.name.toLowerCase().includes(search.toLowerCase())
-//     );
+    async function handleSubmit() {
+        try{
+            await addEmployeesToCycle({
+                "cycle_id": cycle.id,
+                "body": {
+                    "employee_ids": selectedEmployees.map((employee) => employee.id)
+                }
+            }).unwrap();
+        } catch (err) {
+        console.error(err);
+     }
+        fn(false);
+    }
+    return (
+        <div className="overlay">
+            <div className="create-cycle-form">
+                <div className="create-cycle-form-header">
+                    <span className="create-cycle-form-title">Edit Appraisal Cycle</span>
+                    <img src="/src/assets/close.svg" alt="" className="create-cycle-form-close" onClick={()=>fn(false)}/>
+                </div>
+                <div className="create-cycle-form-body">
+                    <span className="create-cycle-form-label">ADD EMPLOYEES</span>
+                    <div className="form-pair">
+                        <input type="text" className="form-pair-input" placeholder="Search Employees" value={search} onChange={(e) => setSearch(e.target.value)} />
+                        select from:
+                        <div className="form-pair-input filter-list">
+                            {
+                            filteredEmployees?.map((employee) => (
+                                <div key={employee?.id} className="filtered-list-item" onClick={() => {
+                                    setSearch("");
+                                    const idList=selectedEmployees.map((employee) => employee.id);
+                                    if (!idList.includes(employee.id)) {
+                                        selectedEmployees.push(employee);
+                                        setSelectedEmployees([...selectedEmployees]);
+                                    }
+                                    }
+                                    }>
+                                    {employee?.name}
+                                </div>
+                            )
+                        )
+                            }
 
-//     async function handleSubmit() {
-//         if (name.length < 3) {
-//             alert("Name must be at least 3 characters long");
-//             return;
-//         }
-//         if (startDate === "" || endDate === "") {
-//             alert("Start date and end date must be selected");
-//             return;
-//         }
-//         if (startDate > endDate) {
-//             alert("Start date cannot be after end date");
-//             return;
-//         }
-//         try{
-//             const response_cycle= await editCycle({
-//                 "id": cycle?.id,
-//                 "name": name,
-//                 "start_date": correctDate(startDate),
-//                 "end_date": correctDate(endDate),
-//             }).unwrap();
-//             console.log(response_cycle.id);
-//             await addEmployeesToCycle({
-//                 "cycle_id": response_cycle.id,
-//                 "body": {
-//                     "employee_ids": selectedEmployees.map((employee) => employee.id)
-//                 }
-//             }).unwrap();
-//         } catch (err) {
-//         console.error(err);
-//      }
-        
+                        </div>
+                        selected:
+                        <div className="form-pair-input filtered-list">
 
-//         fn(false);
-//     }
-//     return (
-//         <div className="overlay">
+                            {
+                            selectedEmployees?.map((employee: any) => (
+                                <div key={employee?.id} className="filtered-list-item" onClick={() => {setSearch("");}}>
+                                {employee?.name}
+                                <img src="/src/assets/close.svg" alt="" onClick={()=>{
+                                    setSelectedEmployees(selectedEmployees.filter(remv_emp=>remv_emp.id!=employee?.id))
+                                }}/>
+                                </div>
+                            )
+                        )
+                            }
 
-//             <div className="create-cycle-form">
-//                 <div className="create-cycle-form-header">
-//                     <span className="create-cycle-form-title">Edit Appraisal Cycle</span>
-//                     <img src="/src/assets/close.svg" alt="" className="create-cycle-form-close" onClick={()=>fn(false)}/>
-//                 </div>
-//                 <div className="create-cycle-form-body">
-//                     <span className="create-cycle-form-label">ADD EMPLOYEES</span>
-//                     <div className="form-pair">
-//                         <input type="text" className="form-pair-input" placeholder="Search Employees" value={search} onChange={(e) => setSearch(e.target.value)} />
-//                         <div className="form-pair-input filter-list">
-
-//                             {
-//                             filteredEmployees?.map((employee) => (
-//                                 <div key={employee?.id} className="filtered-list-item" onClick={() => {
-//                                     setSearch("");
-//                                     selectedEmployees.push(employee);
-//                                     setSelectedEmployees([...selectedEmployees]);
-//                                     console.log(selectedEmployees)
-//                                     }
-//                                     }>
-//                                     {employee?.name}
-//                                 </div>
-//                             )
-//                         )
-//                             }
-
-//                         </div>
-//                         <div className="form-pair-input filtered-list">
-
-//                             {
-//                             selectedEmployees?.map((employee: any) => (
-//                                 <div key={employee?.id} className="filtered-list-item" onClick={() => {setSearch("");}}>
-//                                 {employee?.name}
-//                                 <img src="/src/assets/close.svg" alt="" />
-//                                 </div>
-//                             )
-//                         )
-//                             }
-
-//                         </div>
-//                     </div>
-//                 </div>
-//                 <div className="create-cycle-form-footer">
-//                     <button className="create-cycle-form-cancel" onClick={() => fn(false)}>
-//                         Cancel
-//                     </button>
-//                     <button className="create-cycle-form-submit" onClick={handleSubmit}>Edit Cycle</button>
-//                 </div>
-//             </div>
-//         </div>
-//     )
-// }
+                        </div>
+                    </div>
+                </div>
+                <div className="create-cycle-form-footer">
+                    <button className="create-cycle-form-cancel" onClick={() => fn(false)}>
+                        Cancel
+                    </button>
+                    <button className="create-cycle-form-submit" onClick={handleSubmit}>Edit Cycle</button>
+                </div>
+            </div>
+        </div>
+    )
+}
 

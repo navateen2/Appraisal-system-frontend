@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router";
 import "./cycles.css";
+import "./cycledetails.css"
 import { useAssignEmployeesToCycleMutation, useCreateCycleMutation, useGetCyclesQuery } from "../../api_service/cycle/cycle.api";
 import { useState } from "react";
 import { useGetUsersQuery } from "../../api_service/employees/employee.api";
@@ -90,7 +91,7 @@ function CreateCycle({ fn }: { fn: (arg0: boolean) => void }) {
 
 
     const filteredEmployees = employees.data?.filter((employee: any) =>
-        employee.name.toLowerCase().includes(search.toLowerCase())
+        employee.name.toLowerCase().includes(search.toLowerCase()) && !selectedEmployees.some((selected) => selected.id === employee.id)
     );
     async function handleSubmit() {
         if (name.length < 3 || name.length > 50) {
@@ -163,6 +164,7 @@ function CreateCycle({ fn }: { fn: (arg0: boolean) => void }) {
                         <div className="form-pair-input filter-list">
 
                             {
+                            
                             filteredEmployees?.map((employee) => (
                                 <div key={employee?.id} className="filtered-list-item" onClick={() => {
                                     setSearch("");
