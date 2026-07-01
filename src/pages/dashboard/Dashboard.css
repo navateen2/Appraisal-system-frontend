@@ -142,3 +142,23 @@
     }
 
 }
+
+.recommendation-card{
+    margin-top: 30px;
+    background: white;
+    border-radius: 14px;
+    padding: 22px;
+    border: 1px solid #e5ebf2;
+    box-shadow: 0 4px 12px rgba(0,0,0,.05);
+    transition: .25s;
+}
+
+.ai-box{
+    margin-top: 30px;
+    background: #e5ebf2af;
+    border-radius: 14px;
+    padding: 22px;
+    border: 1px solid #e5ebf2af;
+    font-style: italic;
+    color: rgb(105, 105, 105);
+}

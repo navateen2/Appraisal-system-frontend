@@ -1,349 +1,243 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import {
   Send,
   Search,
-  Trash2,
   BarChart3,
-  MessageSquareText,
-  Star,
-  TrendingUp,
+  Bot,
 } from "lucide-react";
 
 import "./leadFeedBack.css";
 
-interface Competency {
+interface CompetencyFeedback {
   id: number;
   name: string;
   score: number;
+  strength: string;
+  growth: string;
 }
 
-const availableCompetencies = [
-  "Communication",
-  "Leadership",
-  "Technical Skills",
-  "Problem Solving",
-  "Teamwork",
-  "Innovation",
-  "Ownership",
-  "Mentoring",
-  "Time Management",
-  "Quality",
-];
+interface ChatMessage {
+  id: number;
+  sender: "assistant" | "user";
+  text: string;
+  timestamp: string;
+  actions?: string[];
+}
 
 export default function LeadFeedback() {
   const [search, setSearch] = useState("");
 
-  const [competencies, setCompetencies] = useState<Competency[]>([
+  const [competencies, setCompetencies] = useState<CompetencyFeedback[]>([
     {
       id: 1,
       name: "Communication",
       score: 9,
+      strength: "",
+      growth: "",
     },
     {
       id: 2,
       name: "Leadership",
-      score: 9,
-    },
-    {
-      id: 3,
-      name: "Technical Skills",
-      score: 9,
+      score: 7,
+      strength: "",
+      growth: "",
     },
   ]);
 
-  const [summary, setSummary] = useState(
-    "Sarah has demonstrated exceptional performance throughout this appraisal cycle, particularly in her technical delivery and architectural contributions. She consistently exceeds expectations in code quality and has shown significant growth in her ability to mentor junior developers. Her proactive approach to problem-solving and her commitment to maintaining high standards have been instrumental in the successful delivery of our recent core platform updates."
-  );
+  const [chatMessages, setChatMessages] = useState<ChatMessage[]>( [
+    {
+      id: 1,
+      sender: "assistant",
+      text: "Hi Marcus! I'm here to help you refine Sarah's feedback. Tell me about Sarah's performance in Communication.",
+      timestamp: "Just now",
+    },
+    {
+      id: 2,
+      sender: "user",
+      text: "She's excellent at explaining technical stuff to clients, but sometimes writes very long Slack messages that are hard to follow.",
+      timestamp: "2m ago",
+    },
+    {
+      id: 3,
+      sender: "assistant",
+      text: "Got it. I've updated the Communication card with that strength and growth area. Ready to move on to Leadership?",
+      timestamp: "1m ago",
+      actions: ["Yes, let's go", "Edit Communication more"],
+    },
+  ]);
 
-  const [strengths, setStrengths] = useState(
-    "High-velocity technical delivery, complex problem solving, and peer code review quality."
-  );
+  const [inputMessage, setInputMessage] = useState("");
 
-  const [improvements, setImprovements] = useState(
-    "Public speaking and presentation, conflict resolution skills, and strategic roadmap planning."
-  );
-
-  const suggestions = useMemo(
-    () =>
-      availableCompetencies.filter(
-        (c) =>
-          c.toLowerCase().includes(search.toLowerCase()) &&
-          !competencies.find((x) => x.name === c)
-      ),
-    [search, competencies]
-  );
-
-  const addCompetency = (name: string) => {
-    setCompetencies([
-      ...competencies,
-      {
-        id: Date.now(),
-        name,
-        score: 5,
-      },
-    ]);
-
-    setSearch("");
-  };
-
-  const removeCompetency = (id: number) => {
-    setCompetencies(competencies.filter((c) => c.id !== id));
-  };
-
-  const updateScore = (id: number, score: number) => {
-    setCompetencies(
-      competencies.map((c) =>
-        c.id === id
-          ? {
-              ...c,
-              score: Math.min(10, Math.max(1, score)),
-            }
-          : c
-      )
+  const handleInputChange = (
+    id: number,
+    field: "score" | "strength" | "growth",
+    value: string | number
+  ) => {
+    setCompetencies((prev) =>
+      prev.map((c) => {
+        if (c.id === id) {
+          if (field === "score") {
+            const num = Number(value);
+            return { ...c, score: Math.min(10, Math.max(0, num)) };
+          }
+          return { ...c, [field]: value };
+        }
+        return c;
+      })
     );
   };
 
-  const submit = () => {
-    console.log({
-      competencies,
-      summary,
-      strengths,
-      improvements,
-    });
+  const handleSendMessage = () => {
+    if (!inputMessage.trim()) return;
+    const newMessage: ChatMessage = {
+      id: Date.now(),
+      sender: "user",
+      text: inputMessage,
+      timestamp: "Just now",
+    };
+    setChatMessages((prev) => [...prev, newMessage]);
+    setInputMessage("");
+  };
+
+  const submitReview = () => {
+    console.log("Submitting feedback review:", competencies);
   };
 
   return (
     <div className="feedback-page">
-      {/* HEADER */}
-
+      {/* HEADER SECTION */}
       <div className="feedback-header">
-
         <div>
-
           <h1>Provide Feedback</h1>
-
           <div className="header-badges">
-
-            <span className="badge">
-              Sarah Jenkins
+            <span className="badge">Sarah Jenkins</span>
+            <span className="badge blue-badge">
+              <span className="badge-dot"></span> Cycle Name
             </span>
-
-            <span className="badge blue">
-              Cycle Name
-            </span>
-
           </div>
-
         </div>
-
-        <button
-          className="submit-btn"
-          onClick={submit}
-        >
-          <Send size={18} />
+        <button className="submit-btn" onClick={submitReview}>
+          <Send size={16} />
           Submit Review
         </button>
-
       </div>
 
+      {/* MAIN TWO-COLUMN CONTENT */}
       <div className="feedback-content">
-
-        {/* LEFT */}
-
-        <div className="competency-card">
-
-          <div className="section-header">
-
-            <div className="section-title">
-
-              <BarChart3 size={22} />
-
-              <h2>Competency Scores</h2>
-
-            </div>
-
-            <span className="scale-tag">
-              SCALE 1-10
-            </span>
-
+        
+        {/* LEFT COLUMN: Competency Cards */}
+        <div className="competency-container">
+          <div className="section-title-row">
+            <BarChart3 size={20} className="section-icon" />
+            <h2>Competency Scores</h2>
           </div>
 
-          <div className="divider" />
-
           <div className="search-box">
-
-            <Search size={18} />
-
+            <Search size={12}/>
             <input
+              type="text"
               placeholder="Search for a competency"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
-
           </div>
-
-          {search && suggestions.length > 0 && (
-            <div className="suggestions">
-
-              {suggestions.map((item) => (
-                <div
-                  key={item}
-                  className="suggestion"
-                  onClick={() => addCompetency(item)}
-                >
-                  {item}
-                </div>
-              ))}
-
-            </div>
-          )}
 
           <div className="competency-list">
-
-            {competencies.map((item) => (
-
-              <div
-                key={item.id}
-                className="competency-row"
-              >
-
-                <span>{item.name}</span>
-
-                <div className="score-box">
-
-                  <input
-                    type="number"
-                    min={1}
-                    max={10}
-                    value={item.score}
-                    onChange={(e) =>
-                      updateScore(
-                        item.id,
-                        Number(e.target.value)
-                      )
-                    }
-                  />
-
-                  <span>/10</span>
-
-                  <Trash2
-                    size={18}
-                    onClick={() =>
-                      removeCompetency(item.id)
-                    }
-                  />
-
+            {competencies.map((comp) => (
+              <div key={comp.id} className="competency-block-card">
+                <div className="competency-block-header">
+                  <h3>{comp.name}</h3>
+                  <div className="score-input-wrapper">
+                    <input
+                      type="number"
+                      value={comp.score || ""}
+                      onChange={(e) =>
+                        handleInputChange(comp.id, "score", e.target.value)
+                      }
+                      min={0}
+                      max={10}
+                    />
+                    <span className="score-denominator">/ 10</span>
+                  </div>
                 </div>
 
+                <div className="input-group">
+                  <label className="input-label strength-label">
+                    SPECIFIC STRENGTH
+                  </label>
+                  <input
+                    type="text"
+                    className="feedback-text-field"
+                    placeholder="What did they do well?"
+                    value={comp.strength}
+                    onChange={(e) =>
+                      handleInputChange(comp.id, "strength", e.target.value)
+                    }
+                  />
+                </div>
+
+                <div className="input-group">
+                  <label className="input-label growth-label">
+                    GROWTH AREA
+                  </label>
+                  <input
+                    type="text"
+                    className="feedback-text-field"
+                    placeholder="How can they improve?"
+                    value={comp.growth}
+                    onChange={(e) =>
+                      handleInputChange(comp.id, "growth", e.target.value)
+                    }
+                  />
+                </div>
               </div>
-
             ))}
-
           </div>
-
         </div>
 
-        {/* RIGHT */}
-
-        <div className="feedback-right">
-
-          {/* SUMMARY */}
-
-          <div className="feedback-card">
-
-            <div className="section-title">
-
-              <MessageSquareText size={22} />
-
-              <h2>Lead Feedback Narrative</h2>
-
-            </div>
-
-            <div className="divider" />
-
-            <label>Executive Summary</label>
-
-            <textarea
-              value={summary}
-              maxLength={2000}
-              onChange={(e) =>
-                setSummary(e.target.value)
-              }
-            />
-
-            <div className="footer-row">
-
-              <span>
-                Tip: Be specific about projects and
-                behaviors observed.
-              </span>
-
-              <span>
-                {summary.length} / 2000 characters
-              </span>
-
-            </div>
-
+        {/* RIGHT COLUMN: AI Assistant Chat Interface */}
+        <div className="ai-assistant-container">
+          <div className="ai-assistant-header">
+            <Bot size={18} className="bot-icon" />
+            <h3>AI Feedback Assistant</h3>
           </div>
 
-          {/* BOTTOM */}
-
-          <div className="bottom-cards">
-
-            <div className="mini-card">
-
-              <div className="section-title">
-
-                <Star size={20} />
-
-                <h2>Employee Strengths</h2>
-
+          <div className="chat-messages-area">
+            {chatMessages.map((msg) => (
+              <div key={msg.id} className={`chat-bubble-row ${msg.sender}`}>
+                <div className="chat-bubble">
+                  <p>{msg.text}</p>
+                  {msg.actions && (
+                    <div className="chat-actions-row">
+                      {msg.actions.map((act, idx) => (
+                        <button key={idx} className="chat-action-btn">
+                          {act}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
-
-              <textarea
-                value={strengths}
-                onChange={(e) =>
-                  setStrengths(e.target.value)
-                }
-              />
-
-              <small>
-                Highlight core values and behaviors
-                to reinforce.
-              </small>
-
-            </div>
-
-            <div className="mini-card">
-
-              <div className="section-title">
-
-                <TrendingUp size={20} />
-
-                <h2>Areas for Improvement</h2>
-
-              </div>
-
-              <textarea
-                value={improvements}
-                onChange={(e) =>
-                  setImprovements(e.target.value)
-                }
-              />
-
-              <small>
-                Identify actionable goals for the
-                next cycle.
-              </small>
-
-            </div>
-
+            ))}
           </div>
 
+          <div className="chat-input-wrapper">
+            <div className="chat-input-box">
+              <input
+                type="text"
+                placeholder="Message assistant..."
+                value={inputMessage}
+                onChange={(e) => setInputMessage(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
+              />
+              <button className="chat-send-btn" onClick={handleSendMessage}>
+                <Send size={16} />
+              </button>
+            </div>
+          </div>
         </div>
 
       </div>
-
     </div>
   );
 }
