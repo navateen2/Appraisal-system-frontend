@@ -33,7 +33,7 @@ const router = createBrowserRouter([
           {path: "/cycles", element: <Cycles />},
           {path: "/cycles/:id", element: <CycleDetails />},
           {path: "/users", element: <span>Users</span>},        ]
-  },
+  },]},
   {
     element: <ProtectedRoute allowedRoles={["Employee"]} />,
     errorElement: <Error />,
