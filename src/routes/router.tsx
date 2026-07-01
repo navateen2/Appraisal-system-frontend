@@ -8,6 +8,9 @@ import Error from "../Error";
 import LoginPage from "../pages/login/LoginPage";
 import Cycles from "../components/Cycles";
 import PageUser from "../pages/PageUser";
+import Appraisal from "../components/appraisals/SelfAppraisals";
+import AppraisalList from "../components/appraisals/AppraisalList";
+import SelfAppraisal from "../components/appraisals/SelfAppraisals";
 
 const router = createBrowserRouter([
   {
@@ -39,7 +42,8 @@ const router = createBrowserRouter([
         element: <PageUser />,
         children: [
           {index: true, element: <span>Dashboard Employee</span>},
-          {path: "appraisals", element: <Cycles />},
+          {path: "appraisals", element: <AppraisalList />},
+          { path: "appraisals/:appraisalId", element: <SelfAppraisal /> },
           {path: "lead_feedback", element: <span>Users</span>},
         ],
       },
