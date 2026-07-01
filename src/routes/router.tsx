@@ -32,6 +32,7 @@ const router = createBrowserRouter([
           {index: true, element: <span>Dashboard</span>},
           {path: "cycles", element: <Cycles />},
           {path: "cycles/:id", element: <CycleDetails />},
+          {path: "appraisals/:id", element: <CycleDetails />},
           {path: "users", element: <span>Users</span>},        ]
   },]},
   {
