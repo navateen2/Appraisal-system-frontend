@@ -6,7 +6,8 @@ import ProtectedRoute from "./ProtectedRoute";
 import Page from "../pages/Page";
 import Error from "../Error";
 import LoginPage from "../pages/login/LoginPage";
-import Cycles from "../components/Cycles";
+import Cycles from "../pages/cycles/Cycles";
+import CycleDetails from "../pages/cycles/CycleDetails";
 import PageUser from "../pages/PageUser";
 import Appraisal from "../components/appraisals/SelfAppraisals";
 import AppraisalList from "../components/appraisals/AppraisalList";
@@ -27,11 +28,9 @@ const router = createBrowserRouter([
         element: <Page />,
         children: [
           {index: true, element: <span>Dashboard</span>},
-          {path: "cycles", element: <Cycles />},
-          {path: "users", element: <span>Users</span>}, 
-        ],
-      },
-    ],
+          {path: "/cycles", element: <Cycles />},
+          {path: "/cycles/:id", element: <CycleDetails />},
+          {path: "/users", element: <span>Users</span>},        ]
   },
   {
     element: <ProtectedRoute allowedRoles={["Employee"]} />,
