@@ -1,32 +1,40 @@
 import userBaseApi from "../api";
 
-export interface FeedbackItem {
-  question_id: number;
-  rating?: number;
-  comment?: string;
-}
-
-export interface FeedbackFormResponse {
-  id: number;
-  mapping_id: number;
-  employee_id: number;
-  items: FeedbackItem[];
+export interface FeedbackItemPayload {
+  competency_id: number;
+  score: number;
+  strengths: string;
+  improvements: string;
 }
 
 export interface CreateFeedbackFormPayload {
-  items: FeedbackItem[];
+  items: FeedbackItemPayload[];
 }
 
 export interface UpdateFeedbackFormPayload {
-  items: FeedbackItem[];
+  items: FeedbackItemPayload[];
+}
+
+export interface FeedbackDetail {
+  id: number;
+  competency_id: number;
+  competency_name: string;
+  score: number;
+  strengths: string;
+  improvements: string;
+}
+
+export interface FeedbackFormResponse {
+  mapping_id: number;
+  lead_id: number;
+  appraisal_id: number;
+  status: string;
+  feedbacks: FeedbackDetail[];
 }
 
 export const leadFeedbackApi = userBaseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getLeadFeedbackForm: builder.query<
-      FeedbackFormResponse,
-      number
-    >({
+    getLeadFeedbackForm: builder.query<FeedbackFormResponse, number>({
       query: (mappingId) => ({
         url: `/feedback/mapping/${mappingId}/form`,
         method: "GET",

@@ -32,8 +32,8 @@ const router = createBrowserRouter([
         element: <Page />,
         children: [
           {index: true, element: <span>Dashboard</span>},
-          {path: "/appraisals/:appraisalId", element:<HRAppraisal />},
-          {path: "/appraisals/:appraisalId/feedback/:feedbackId", element:<Feedback />},
+          {path: "appraisals/:appraisalId", element:<HRAppraisal />},
+          {path: "appraisals/:appraisalId/feedback/:feedbackId", element:<Feedback />},
           {path: "cycles", element: <Cycles />},
           {path: "cycles/:id", element: <CycleDetails />},
           {path: "users", element: <span>Users</span>},        ]

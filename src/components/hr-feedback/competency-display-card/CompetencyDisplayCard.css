@@ -1,4 +1,4 @@
-.competency-card {
+.hr-competency-card {
     background: white;
 
     border: 1px solid #EDF1F5;
@@ -6,7 +6,7 @@
 
     padding: 18px 18px 16px;
 
-    min-height: 132px;
+    min-height: 160px;
 
     display: flex;
     flex-direction: column;

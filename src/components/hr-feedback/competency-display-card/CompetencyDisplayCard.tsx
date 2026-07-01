@@ -20,7 +20,7 @@ function CompetencyDisplayCard({
 }: CompetencyDisplayCardProps) {
 
     return (
-        <div className="competency-card">
+        <div className="hr-competency-card">
 
             <div className="competency-header">
 
