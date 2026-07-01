@@ -86,6 +86,7 @@
 .column-id{
     width:50px;
     justify-content: left;
+    text-wrap: nowrap;
 }
 
 .column-name{
