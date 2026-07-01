@@ -30,9 +30,9 @@ const router = createBrowserRouter([
         element: <Page />,
         children: [
           {index: true, element: <span>Dashboard</span>},
-          {path: "/cycles", element: <Cycles />},
-          {path: "/cycles/:id", element: <CycleDetails />},
-          {path: "/users", element: <span>Users</span>},        ]
+          {path: "cycles", element: <Cycles />},
+          {path: "cycles/:id", element: <CycleDetails />},
+          {path: "users", element: <span>Users</span>},        ]
   },]},
   {
     element: <ProtectedRoute allowedRoles={["Employee"]} />,
