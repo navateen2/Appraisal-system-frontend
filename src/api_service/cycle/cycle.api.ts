@@ -20,6 +20,17 @@ export interface AppraisalAssignedItem {
   status: string;
 }
 
+export interface AppraisalAssignedItemWithName {
+  id: number;
+  employee_id: number;
+  status: string;
+  employee_name: string;
+}
+
+export interface CycleStatusUpdate {
+  status: "Initiated" | "In Progress" | "Completed";
+}
+
 export interface BulkAssignmentResponse {
   successfully_assigned: AppraisalAssignedItem[];
   already_assigned_employee_ids: number[];
@@ -65,10 +76,16 @@ export const cycleApi = userBaseApi.injectEndpoints({
         }),
         invalidatesTags: ["Cycles", "CycleAssignments"],
       }),
-
-      /**
-       * DELETE /cycle/{cycle_id}/assignments/{employee_id}
-       */
+    deleteCycle: builder.mutation< { message: string }, number >({
+      query: (cycle_id) => ({
+        url: `/cycles/${cycle_id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: (result, error, cycle_id) => [
+        { type: "Cycles", id: cycle_id },
+        "Cycles",
+      ],
+      }),
       removeEmployeeFromCycle: builder.mutation<
         { message: string },
         {
@@ -81,6 +98,26 @@ export const cycleApi = userBaseApi.injectEndpoints({
           method: "DELETE",
         }),
         invalidatesTags: ["Cycles", "CycleAssignments"],
+      }),
+
+      getAppraisalsByCycleId: builder.query<AppraisalAssignedItemWithName[], number>({
+        query: (cycle_id) => `/cycles/${cycle_id}/appraisals`,
+        providesTags: (result, error, cycle_id) => [{ type: "CycleAssignments", id: cycle_id }],
+      }),
+      updateCycleStatus: builder.mutation<AppraisalCycle,    {
+          cycle_id: number;
+          body: CycleStatusUpdate;
+        }
+      >({
+        query: ({ cycle_id, body }) => ({
+          url: `/cycles/${cycle_id}/status`,
+          method: "PATCH",
+          body,
+        }),
+        invalidatesTags: (result, error, { cycle_id }) => [
+          { type: "Cycles", id: cycle_id },
+          "Cycles",
+        ],
       }),
     }),
 
@@ -96,6 +133,9 @@ export const {
   useUpdateCycleMutation,
   useAssignEmployeesToCycleMutation,
   useRemoveEmployeeFromCycleMutation,
+  useGetAppraisalsByCycleIdQuery,
+  useUpdateCycleStatusMutation,
+  useDeleteCycleMutation,
 } = cycleApi;
 
 

@@ -19,6 +19,7 @@ import LeadFeedbackList from "../components/lead_feedback/LeadFeedBackList";
 import UserList from "../pages/user-list/UserList";
 import CreateUser from "../pages/create-user/CreateUser";
 import EditUser from "../pages/edit-user/EditUser";
+import Dashboard from "../pages/dashboard/Dashboard";
 
 
 const router = createBrowserRouter([
@@ -35,14 +36,15 @@ const router = createBrowserRouter([
         path: "/hr",
         element: <Page />,
         children: [
-          {index: true, element: <span>Dashboard</span>},
+          {index: true, element: <Dashboard />},
           {path: "appraisals/:appraisalId", element:<HRAppraisal />},
           {path: "appraisals/:appraisalId/feedback/:feedbackId", element:<Feedback />},
           {path: "cycles", element: <Cycles />},
           {path: "cycles/:id", element: <CycleDetails />},
           {path: "users", element: <UserList/>},
           {path: "createuser", element: <CreateUser/>},
-          {path: "edituser/:postId", element: <EditUser/>}, ]
+          {path: "edituser/:postId", element: <EditUser/>},
+          ]
   },]},
   {
     element: <ProtectedRoute allowedRoles={["Employee"]} />,

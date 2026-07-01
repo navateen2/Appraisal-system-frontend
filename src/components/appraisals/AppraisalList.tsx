@@ -87,20 +87,30 @@ const user = getUserIdFromToken(token)
             </div>
 
             <div className="actions">
-              <button className="view-btn" onClick={() => navigate(`/employee/appraisals/${appraisal.id}`,{
-                state:{appraisal,}}
-              )}>
-                <Eye size={18} />
-                View
-              </button>
-
-              {appraisal.status === "Initiated" && (
-                <button className="edit-btn">
-                  <Pencil size={18} />
-                  Continue
-                </button>
-              )}
-            </div>
+  {appraisal.status === "Initiated" ? (
+    <button
+      className="edit-btn"
+      onClick={() =>
+        navigate(`/employee/appraisals/${appraisal.id}`)
+      }
+    >
+      <Pencil size={18} />
+      Fill Self-Appraisal
+    </button>
+  ) : (
+    <button
+      className="view-btn"
+      onClick={() =>
+        navigate(`/employee/appraisals/${appraisal.id}`, {
+          state: { appraisal },
+        })
+      }
+    >
+      <Eye size={18} />
+      View
+    </button>
+  )}
+</div>
           </div>
         ))}
       </div>
