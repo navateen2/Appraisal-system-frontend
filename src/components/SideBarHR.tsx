@@ -5,7 +5,7 @@ function sideBarHR() {
     
     return (
         <div className="side-bar">
-            <SideBarHRItems name="Dashboard" icon="/src/assets/dashboard.svg" link="/hr/dashboard" />
+            <SideBarHRItems name="Dashboard" icon="/src/assets/dashboard.svg" link="/hr" />
             <SideBarHRItems name="Appraisal Cycles" icon="/src/assets/calendar.svg" link="/hr/cycles" />
             <SideBarHRItems name="Users" icon="/src/assets/user.svg" link="/hr/users" />
 

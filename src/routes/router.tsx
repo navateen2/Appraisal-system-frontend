@@ -34,14 +34,14 @@ const router = createBrowserRouter([
         path: "/hr",
         element: <Page />,
         children: [
-          {index: true, element: <span>Dashboard</span>},
+          {index: true, element: <Dashboard/>},
           {path: "cycles", element: <Cycles />},
           {path: "cycles/:id", element: <CycleDetails />},
           {path: "appraisals/:id", element: <CycleDetails />},
           {path: "users", element: <UserList/>},
           {path: "createuser", element: <CreateUser/>},
           {path: "edituser/:postId", element: <EditUser/>},
-          {path: "dashboard", element: <Dashboard/>}, ]
+          ]
   },]},
   {
     element: <ProtectedRoute allowedRoles={["Employee"]} />,
