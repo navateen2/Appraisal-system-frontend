@@ -9,6 +9,22 @@ export interface AppraisalCycle {
   status: 'Initiated' | 'Completed' | 'In Progress';
 }
 
+export interface AssignmentParam {
+  employee_ids: number[];
+}
+
+export interface AppraisalAssignedItem {
+  id: number;
+  cycle_id: number;
+  employee_id: number;
+  status: string;
+}
+
+export interface BulkAssignmentResponse {
+  successfully_assigned: AppraisalAssignedItem[];
+  already_assigned_employee_ids: number[];
+}
+
 export const cycleApi = userBaseApi.injectEndpoints({
   endpoints: (builder) => ({
     getCycles: builder.query<ListResponse<AppraisalCycle>, void>({
@@ -35,12 +51,52 @@ export const cycleApi = userBaseApi.injectEndpoints({
       }),
       invalidatesTags: (result, error, { id }) => [{ type: "Cycles", id }, "Cycles"],
     }),
-  }),
+    assignEmployeesToCycle: builder.mutation<
+        BulkAssignmentResponse,
+        {
+          cycleId: number;
+          body: AssignmentParam;
+        }
+      >({
+        query: ({ cycleId, body }) => ({
+          url: `/cycle/${cycleId}/assignments`,
+          method: "POST",
+          body,
+        }),
+        invalidatesTags: ["Cycles", "CycleAssignments"],
+      }),
+
+      /**
+       * DELETE /cycle/{cycle_id}/assignments/{employee_id}
+       */
+      removeEmployeeFromCycle: builder.mutation<
+        { message: string },
+        {
+          cycleId: number;
+          employeeId: number;
+        }
+      >({
+        query: ({ cycleId, employeeId }) => ({
+          url: `/cycle/${cycleId}/assignments/${employeeId}`,
+          method: "DELETE",
+        }),
+        invalidatesTags: ["Cycles", "CycleAssignments"],
+      }),
+    }),
+
+    overrideExisting: false,
 });
+
+
 
 export const {
   useGetCyclesQuery,
   useGetCycleByIdQuery,
   useCreateCycleMutation,
   useUpdateCycleMutation,
+  useAssignEmployeesToCycleMutation,
+  useRemoveEmployeeFromCycleMutation,
 } = cycleApi;
+
+
+ 
