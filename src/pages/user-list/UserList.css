@@ -61,7 +61,7 @@
 .directory-card {
   background-color: #ffffff;
   border-radius: 16px;
-  border: 1px solid #f1f5f9;
+  border: 1px solid #C8C4D5;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
   overflow: hidden;
 }
@@ -98,12 +98,14 @@
 /* Table Design */
 .table-responsive {
   overflow-x: auto;
+  border-color: #C8C4D5;
 }
 
 .directory-table {
   width: 100%;
   border-collapse: collapse;
   text-align: left;
+  
 }
 
 .directory-table th {
@@ -115,6 +117,7 @@
   color: #64748b;
   border-bottom: 1px solid #f1f5f9;
   background-color: #ffffff;
+  border-color: #C8C4D5;
 }
 
 .directory-table td {
@@ -122,6 +125,7 @@
   font-size: 0.875rem;
   vertical-align: middle;
   border-bottom: 1px solid #f8fafc;
+  border-color: #C8C4D5;
 }
 
 .directory-table tbody tr {
@@ -153,4 +157,12 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  
+}
+
+.actions-wrapper{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
 }

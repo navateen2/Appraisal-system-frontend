@@ -48,21 +48,7 @@ export default function UserList() {
         <div className="directory-card">
 
           {/* Request Lifecycle States Handling */}
-          {isLoading ? (
-            <div className="state-container">
-              <Loader2 className="animate-spin text-slate-400" size={24} />
-              <p>Syncing staff directory...</p>
-            </div>
-          ) : error ? (
-            <div className="state-container text-red-500">
-              <p>Failed to load user directory. Please authenticate or verify authorization permissions.</p>
-            </div>
-          ) : employees.length === 0 ? (
-            <div className="state-container">
-              <p>No employees found.</p>
-            </div>
-          ) : (
-            <div className="table-responsive">
+          <div className="table-responsive">
               <table className="directory-table">
                 <thead>
                   <tr>
@@ -70,7 +56,7 @@ export default function UserList() {
                     <th>Full Name</th>
                     <th>Email Address</th>
                     <th>Role</th>
-                    <th className="col-actions">Actions</th>
+                    <th >Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -84,8 +70,8 @@ export default function UserList() {
                       <td>
                         <span className="role-badge">{employee.role}</span>
                       </td>
-                      <td className="col-actions">
-                        <div className="actions-wrapper" style={{ display: 'flex', gap: '20px', justifyContent: 'center' }}>
+                      <td>
+                        <div className="actions-wrapper" >
                           <button 
                             className="btn-action-trigger" 
                             onClick={() => handleDelete(employee.id)}
@@ -104,8 +90,6 @@ export default function UserList() {
                 </tbody>
               </table>
             </div>
-          )}
-
         </div>
       </div>
     </div>
