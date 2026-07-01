@@ -57,6 +57,7 @@ const router = createBrowserRouter([
           {path: "appraisals", element: <AppraisalList />},
           {path: "appraisals/:appraisalId", element: <SelfAppraisal /> },
           {path: "lead_feedback", element: <LeadFeedbackList/>},
+          {path: "/employee/lead_feedback/:id", element: <LeadFeedback/>}
         ],
       },
     ],
