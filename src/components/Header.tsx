@@ -1,7 +1,11 @@
 import { useNavigate } from "react-router"
+import getUserIdFromToken from "../utils/getUserIDfromToken"
 
 function Header() {
     const Navigate = useNavigate()
+    const token = localStorage.getItem("token")
+    if (!token) return "Not Authorized"
+    const user = getUserIdFromToken(token)
     return (
         <div className="header">
             <div className="header-name">
@@ -15,8 +19,8 @@ function Header() {
                 <img src="/src/assets/bell.svg" alt="" />
                 <div className="vdivider" />
                 <div className="user-info">
-                    <span className="user-name">'User name'</span>
-                    <span className="user-role">'Role'</span>
+                    <span className="user-name">User ID: {user?.id}</span>
+                    <span className="user-role">{user?.role}</span>
                 </div>
 
             </div>
