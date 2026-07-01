@@ -20,6 +20,14 @@ export interface AppraisalAssignedItem {
   status: string;
 }
 
+export interface AppraisalAssignedItemWithName {
+  id: number;
+  employee_id: number;
+  status: string;
+  employee_name: string;
+}
+
+
 export interface BulkAssignmentResponse {
   successfully_assigned: AppraisalAssignedItem[];
   already_assigned_employee_ids: number[];
@@ -82,6 +90,11 @@ export const cycleApi = userBaseApi.injectEndpoints({
         }),
         invalidatesTags: ["Cycles", "CycleAssignments"],
       }),
+
+      getAppraisalsByCycleId: builder.query<AppraisalAssignedItemWithName[], number>({
+        query: (cycle_id) => `/cycles/${cycle_id}/appraisals`,
+        providesTags: (result, error, cycle_id) => [{ type: "CycleAssignments", id: cycle_id }],
+      }),
     }),
 
     overrideExisting: false,
@@ -96,6 +109,7 @@ export const {
   useUpdateCycleMutation,
   useAssignEmployeesToCycleMutation,
   useRemoveEmployeeFromCycleMutation,
+  useGetAppraisalsByCycleIdQuery,
 } = cycleApi;
 
 
