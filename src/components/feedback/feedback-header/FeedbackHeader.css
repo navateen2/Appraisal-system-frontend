@@ -1,0 +1,57 @@
+.feedback-header-card {
+    position: relative;
+
+    background: white;
+
+    border: 1px solid #E7EDF3;
+    border-radius: 10px;
+
+    padding: 16px 22px 18px;
+
+    min-height: 92px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.feedback-header-left,
+.feedback-header-right {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.feedback-header-right {
+    align-items: flex-end;
+}
+
+.feedback-header-label {
+    font-size: 1rem;
+    font-weight: 700;
+
+    color: #8D95A4;
+
+    letter-spacing: 0.08em;
+}
+
+.feedback-header-name {
+    font-size: 2rem;
+    font-weight: 700;
+
+    color: #242833;
+
+    line-height: 1.15;
+}
+
+.feedback-header-line {
+    position: absolute;
+
+    left: 16px;
+    right: 16px;
+    bottom: 12px;
+
+    height: 1px;
+
+    background: #EEF2F6;
+}

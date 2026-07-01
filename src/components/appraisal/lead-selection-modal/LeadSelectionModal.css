@@ -2,67 +2,136 @@
     position: fixed;
     inset: 0;
 
-    background: rgba(0, 0, 0, 0.35);
+    background: rgba(0, 0, 0, 0.32);
+
+    backdrop-filter: blur(3px);
 
     display: flex;
     justify-content: center;
     align-items: center;
 
-    z-index: 999;
+    z-index: 9999;
 }
 
 .lead-selection-modal {
-    width: 520px;
-    max-width: 90vw;
+    width: 560px;
+    max-width: 92vw;
 
-    background: white;
+    background: #ffffff;
 
     border-radius: 12px;
 
     overflow: hidden;
 
     box-shadow:
-        0 12px 30px rgba(0,0,0,0.15);
+        0 16px 40px rgba(0, 0, 0, 0.18);
+
+    animation:
+        modalFadeIn 0.18s ease;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .lead-selection-header {
-    padding: 22px 26px;
+    height: 78px;
+
+    padding: 0 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.lead-selection-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #262626;
+}
+
+.lead-selection-done-button {
+    width: 92px;
+    height: 40px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: #004d7a;
+    color: white;
+
+    font-size: 1.3rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.lead-selection-done-button:hover {
+    transform: translateY(-1px);
+}
+
+.disabled-done {
+    background: #c9d1d9;
+    cursor: not-allowed;
+}
+
+.disabled-done:hover {
+    transform: none;
+}
+
+.lead-selection-divider {
+    height: 1px;
+    background: #e7edf3;
+}
+
+.lead-selection-top-row {
+    padding:
+        18px 24px
+        12px 24px;
 
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.lead-selection-title {
-    font-size: 2rem;
+.lead-selection-count {
+    font-size: 1.1rem;
     font-weight: 700;
-    color: #222;
+    letter-spacing: 0.04em;
+    color: #5f6874;
 }
 
-.lead-selection-done-button {
-    width: 84px;
-    height: 40px;
-
+.clear-all-button {
     border: none;
+    background: transparent;
 
-    border-radius: 10px;
-
-    background: #004d7a;
-    color: white;
-
-    font-size: 1.35rem;
+    font-size: 1.25rem;
     font-weight: 600;
+
+    color: #005b93;
 
     cursor: pointer;
 }
 
-.lead-selection-divider {
-    height: 1px;
-    background: #e6ebf0;
+.clear-all-button:disabled {
+    color: #c5ccd4;
+    cursor: not-allowed;
 }
 
 .lead-selection-list {
-    padding: 22px;
+    padding:
+        0 20px
+        24px 20px;
 
     display: flex;
     flex-direction: column;
@@ -73,16 +142,18 @@
 }
 
 .lead-selection-footer {
-    height: 52px;
+    min-height: 50px;
 
-    padding: 0 24px;
+    border-top: 1px solid #e7edf3;
 
-    border-top: 1px solid #e6ebf0;
+    padding: 0 22px;
 
     display: flex;
     align-items: center;
     gap: 8px;
 
-    font-size: 1.1rem;
+    font-size: 1.05rem;
+    font-weight: 500;
+
     color: #6b7280;
 }

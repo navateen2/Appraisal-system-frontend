@@ -39,6 +39,9 @@ function LeadSelectionModal({
     const [selectedIds, setSelectedIds] =
         useState<string[]>([]);
 
+    const [loading, setLoading] =
+        useState(false);
+
     useEffect(() => {
         if (!open) {
             setSelectedIds([]);
@@ -71,15 +74,32 @@ function LeadSelectionModal({
         ]);
     };
 
+    const clearAll = () => {
+        setSelectedIds([]);
+    };
+
     const handleDone = async () => {
 
-        if (selectedIds.length === 0) {
+        if (
+            selectedIds.length === 0 ||
+            loading
+        ) {
             return;
         }
 
-        await onDone(selectedIds);
+        try {
 
-        onClose();
+            setLoading(true);
+
+            await onDone(
+                selectedIds
+            );
+
+            onClose();
+
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -102,7 +122,15 @@ function LeadSelectionModal({
                     </div>
 
                     <button
-                        className="lead-selection-done-button"
+                        disabled={
+                            selectedIds.length === 0 ||
+                            loading
+                        }
+                        className={
+                            selectedIds.length === 0
+                                ? "lead-selection-done-button disabled-done"
+                                : "lead-selection-done-button"
+                        }
                         onClick={handleDone}
                     >
                         Done
@@ -112,38 +140,64 @@ function LeadSelectionModal({
 
                 <div className="lead-selection-divider" />
 
+                <div className="lead-selection-top-row">
+
+                    <div className="lead-selection-count">
+                        AVAILABLE LEADS (
+                        {employees.length}
+                        )
+                    </div>
+
+                    <button
+                        className="clear-all-button"
+                        disabled={
+                            selectedIds.length === 0
+                        }
+                        onClick={clearAll}
+                    >
+                        Clear all
+                    </button>
+
+                </div>
+
                 <div className="lead-selection-list">
 
-                    {employees.map(employee => (
-
-                        <EmployeeSelectionItem
-                            employeeName={
-                                employee.employeeName
-                            }
-                            selected={
-                                selectedIds.includes(
+                    {employees.map(
+                        employee => (
+                            <EmployeeSelectionItem
+                                key={
                                     employee.employeeId
-                                )
-                            }
-                            onClick={() =>
-                                toggleEmployee(
-                                    employee.employeeId
-                                )
-                            }
-                        />
-
-                    ))}
+                                }
+                                employeeName={
+                                    employee.employeeName
+                                }
+                                selected={
+                                    selectedIds.includes(
+                                        employee.employeeId
+                                    )
+                                }
+                                onClick={() =>
+                                    toggleEmployee(
+                                        employee.employeeId
+                                    )
+                                }
+                            />
+                        )
+                    )}
 
                 </div>
 
                 <div className="lead-selection-footer">
 
-                    <Info size={14} />
+                    <Info
+                        size={14}
+                        strokeWidth={2}
+                    />
 
                     <span>
                         Feedback requests will be sent
                         immediately after clicking
-                        Done.
+                        "Done".
                     </span>
 
                 </div>
