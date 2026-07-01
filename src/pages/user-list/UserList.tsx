@@ -5,15 +5,9 @@ import type { UserResponse } from '../../api_service/employees/types';
 import { useNavigate } from 'react-router';
 
 export default function UserList() {
-    const navigate=useNavigate()
-  // Fetching users using your generated RTK Query hook
-  const { data: responseData, isLoading, error } = useGetUsersQuery();
-  
-  // Destructuring your delete mutation trigger hook
+  const navigate=useNavigate()
+  const { data: responseData} = useGetUsersQuery();
   const [deleteUser, { isLoading: isDeleting }] = useDeleteUserMutation();
-
-  // Handling the response list data safely
-  // (Adapting if your backend directly returns UserResponse[] or wraps it in ListResponse)
   const employees: UserResponse[] = Array.isArray(responseData) 
     ? responseData 
     : responseData?.data || [];
@@ -31,8 +25,6 @@ export default function UserList() {
   return (
     <div className="directory-container">
       <div className="directory-wrapper">
-        
-        {/* Header */}
         <div className="directory-header">
           <div className="title-area">
             <h1>Employee Directory</h1>
@@ -43,11 +35,7 @@ export default function UserList() {
             Create Employee
           </button>
         </div>
-
-        {/* Card Component */}
         <div className="directory-card">
-
-          {/* Request Lifecycle States Handling */}
           <div className="table-responsive">
               <table className="directory-table">
                 <thead>
@@ -56,6 +44,7 @@ export default function UserList() {
                     <th>Full Name</th>
                     <th>Email Address</th>
                     <th>Role</th>
+                    <th>Joining date</th>
                     <th >Actions</th>
                   </tr>
                 </thead>
@@ -69,6 +58,9 @@ export default function UserList() {
                       <td className="col-email">{employee.email}</td>
                       <td>
                         <span className="role-badge">{employee.role}</span>
+                      </td>
+                      <td>
+                        <span className="role-badge">{employee.created_at?.slice(0, 10)}</span>
                       </td>
                       <td>
                         <div className="actions-wrapper" >
