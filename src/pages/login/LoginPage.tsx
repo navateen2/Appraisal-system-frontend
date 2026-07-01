@@ -3,6 +3,7 @@ import "./login.css";
 import { useEffect, useRef, useState } from "react";
 import { useLoginMutation } from "../../api_service/auth/login.api";
 import { useNavigate } from "react-router";
+import getUserIdFromToken from "../../utils/getUserIDfromToken";
 
 function Login() {
   const [error, setError] = useState("");
@@ -20,8 +21,20 @@ function Login() {
     login({ username: username, password: pw }) 
       .unwrap()
       .then((response) => {
+        localStorage.clear()
         localStorage.setItem("token", response.access_token);
-        navigate("/employee/list");
+        const user = getUserIdFromToken(response.access_token);
+        if (!user) {
+          return "Token decoding failed";
+        }
+        const { role } = user;
+        if (role === "HR") {
+          navigate("/hr");
+        } else if (role === "Employee") {
+          navigate("/employee");
+        } else {
+          setError("Unknown user role");
+        }
       })
       .catch((error) => {
         const serverMessage =

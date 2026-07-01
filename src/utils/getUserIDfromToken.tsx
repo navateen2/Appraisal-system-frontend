@@ -10,7 +10,7 @@ interface TokenPayload {
 export default function getUserIdFromToken(token:string) {
     try {
         const user = jwtDecode<TokenPayload>(token)
-        return user.id
+        return {id: user.id, role:user.role}
     } catch (error) {
       console.error('Failed to decode token:', error);
       return null;

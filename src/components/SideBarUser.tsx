@@ -1,13 +1,13 @@
 import { useLocation } from "react-router";
 
-function sideBarHR() {
+function sideBarUser() {
 
     
     return (
         <div className="side-bar">
-            <SideBarHRItems name="Dashboard" icon="/src/assets/dashboard.svg" link="/hr" />
-            <SideBarHRItems name="Appraisal Cycles" icon="/src/assets/calendar.svg" link="/hr/cycles" />
-            <SideBarHRItems name="Users" icon="/src/assets/user.svg" link="/hr/users" />
+            <SideBarHRItems name="Dashboard" icon="/src/assets/dashboard.svg" link="/employee" />
+            <SideBarHRItems name="Appraisals" icon="/src/assets/calendar.svg" link="/employee/appraisals" />
+            <SideBarHRItems name="Lead Feedback" icon="/src/assets/user.svg" link="/employee/lead_feedback" />
 
 
         </div>
@@ -32,4 +32,4 @@ function SideBarHRItems({name,icon,link}:{name: string, icon: string, link: stri
     )
 }
 
-export default sideBarHR;
+export default sideBarUser;
