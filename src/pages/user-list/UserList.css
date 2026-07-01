@@ -1,0 +1,156 @@
+/* Container Background & Layout */
+.directory-container {
+  min-height: 100vh;
+  background-color: #f8f8fd;
+  padding: 3rem 2rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: #334155;
+}
+
+.directory-wrapper {
+  max-width: 1500px;
+  margin: 0 auto;
+}
+
+/* Header Styles */
+.directory-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  gap: 1rem;
+}
+
+.title-area h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #2b5b84;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.title-area p {
+  font-size: 0.875rem;
+  color: #64748b;
+  margin: 0.25rem 0 0 0;
+}
+
+/* Primary Create Button */
+.btn-create {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: #2b5b84;
+  color: #ffffff;
+  padding: 0.625rem 1.25rem;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.btn-create:hover {
+  background-color: #22496a;
+}
+
+/* Main Card Wrapper */
+.directory-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #f1f5f9;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+  overflow: hidden;
+}
+
+/* Filter Toolbar Row */
+.filter-bar {
+  padding: 1.25rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.btn-filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #475569;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-filter:hover {
+  background-color: #f8fafc;
+}
+
+.icon-filter {
+  color: #64748b;
+}
+
+/* Table Design */
+.table-responsive {
+  overflow-x: auto;
+}
+
+.directory-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.directory-table th {
+  padding: 1rem 1.5rem;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #64748b;
+  border-bottom: 1px solid #f1f5f9;
+  background-color: #ffffff;
+}
+
+.directory-table td {
+  padding: 1rem 1.5rem;
+  font-size: 0.875rem;
+  vertical-align: middle;
+  border-bottom: 1px solid #f8fafc;
+}
+
+.directory-table tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.directory-table tbody tr:hover {
+  background-color: rgba(248, 250, 252, 0.5);
+}
+
+/* Specific Column Typography */
+.col-id {
+  font-weight: 500;
+  color: #94a3b8;
+}
+
+.col-name {
+  font-weight: 700;
+  color: #334155;
+}
+
+.btn-action-trigger{
+    background-color: white;
+    border: none;
+
+}
+
+.col-actions{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
