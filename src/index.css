@@ -6,3 +6,9 @@
     font-family: "Inter", sans-serif;
     box-sizing: border-box;
 }
+
+.validation-error{
+    color: red;
+    font-size: 12px;
+    font-weight: 400;
+}

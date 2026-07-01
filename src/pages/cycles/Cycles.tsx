@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router";
 import "./cycles.css";
-import { useGetCyclesQuery } from "../../api_service/cycle/cycle.api";
+import { useCreateCycleMutation, useGetCyclesQuery } from "../../api_service/cycle/cycle.api";
 import { useState } from "react";
 
 function Cycles() {
@@ -71,9 +71,41 @@ function StatusBadge({ status }: { status: string }) {
 export default Cycles;
 
 
+function correctDate(date: string) {
+    console.log(date);
+    const [year, month, day] = date.split("-");
+    return `${year}-${month}-${day}`;
+}
 function CreateCycle({fn}:{fn: (arg0: boolean) => void}) {
+    const [name,setName] = useState("");
+    const [startDate,setStartDate] = useState("");
+    const [endDate,setEndDate] = useState("");
+    const [createCycle,] = useCreateCycleMutation();
+    function handleSubmit() {
+        if(name.length < 3) {
+            alert("Name must be at least 3 characters long");
+            return;
+        }
+        if(startDate === "" || endDate === "") {
+            alert("Start date and end date must be selected");
+            return;
+        }
+        if(startDate > endDate) {
+            alert("Start date cannot be after end date");
+            return;
+        }
+
+        createCycle({
+            "name" : name,
+            "start_date" : startDate,
+            "end_date":endDate,
+            "status": "Initiated"
+        });
+        fn(false);
+    }
     return (
         <div className="overlay">
+            
             <div className="create-cycle-form">
                 <div className="create-cycle-form-header">
                     <span className="create-cycle-form-title">Create Appraisal Cycle</span>
@@ -83,16 +115,17 @@ function CreateCycle({fn}:{fn: (arg0: boolean) => void}) {
                     <span className="create-cycle-form-label">CYCLE DETAILS</span>
                     <div className="form-pair">
                         <span className="form-pair-name">Cycle Name</span>
-                        <input type="text" className="form-pair-input" />
+                        <input type="text" className="form-pair-input" value={name} onChange={(e) => setName(e.target.value)} />
+                        {((name.length < 3 || name.length > 50) && name.length !=0) && <span className="validation-error">Name must be between 3 and 50 characters</span>}
                     </div>
                     <div className="date-pair">
                         <div className="form-pair">
-                            <span className="form-pair-name">Start Date</span>
-                            <input type="date" className="form-pair-input" />
+                            <span className="form-pair-name" >Start Date</span>
+                            <input type="date" className="form-pair-input" onClick={(e) => e.currentTarget.showPicker?.()} onChange={(e)=>setStartDate(correctDate(e.currentTarget.value))} />
                         </div>
                         <div className="form-pair">
                             <span className="form-pair-name">End Date</span>
-                            <input type="date" className="form-pair-input" />
+                            <input type="date" className="form-pair-input" onClick={(e) => e.currentTarget.showPicker?.()} onChange={(e)=>setEndDate(correctDate(e.currentTarget.value))} />
                         </div>
                     </div>
                     <span className="create-cycle-form-label">ADD EMPLOYEES</span>
@@ -109,7 +142,7 @@ function CreateCycle({fn}:{fn: (arg0: boolean) => void}) {
                     <button className="create-cycle-form-cancel" onClick={() => fn(false)}>
                         Cancel
                     </button>
-                    <button className="create-cycle-form-submit">Create Cycle</button>
+                    <button className="create-cycle-form-submit" onClick={handleSubmit}>Create Cycle</button>
                 </div>
             </div>
         </div>

@@ -4,9 +4,9 @@ import type { ListResponse } from "./types";
 export interface AppraisalCycle {
   id: string;
   name: string; 
-  startDate: string;
-  endDate: string;
-  status: 'active' | 'completed' | 'upcoming';
+  start_date: string;
+  end_date: string;
+  status: 'Initiated' | 'Completed' | 'In Progress';
 }
 
 export const cycleApi = userBaseApi.injectEndpoints({
@@ -21,7 +21,7 @@ export const cycleApi = userBaseApi.injectEndpoints({
     }),
     createCycle: builder.mutation<AppraisalCycle, Partial<AppraisalCycle>>({
       query: (payload) => ({
-        url: "/cycle",
+        url: "/cycles",
         method: "POST",
         body: payload,
       }),
