@@ -1,5 +1,5 @@
 import "./Dashboard.css";
-import { Users, Activity, CircleCheck } from "lucide-react";
+import { Users, Activity, CircleCheck,PenBoxIcon } from "lucide-react";
 
 import { useGetUsersQuery } from "../../api_service/employees/employee.api";
 import { useGetCyclesQuery } from "../../api_service/cycle/cycle.api";
@@ -134,6 +134,18 @@ const Dashboard = () => {
           </span>
         </div>
       </div>
+
+      <div className="recommendation-card">
+          <div className="card-icon completion-icon">
+            <PenBoxIcon size={18} />
+          </div>
+
+          <p className="card-title">AI RECOMMENDATION</p>
+
+          <div className="ai-box">
+            "AI Recommends things that are very useful for your company"            
+          </div>
+        </div>
     </div>
   );
 };
