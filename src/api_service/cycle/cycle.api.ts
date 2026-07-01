@@ -76,10 +76,16 @@ export const cycleApi = userBaseApi.injectEndpoints({
         }),
         invalidatesTags: ["Cycles", "CycleAssignments"],
       }),
-
-      /**
-       * DELETE /cycle/{cycle_id}/assignments/{employee_id}
-       */
+    deleteCycle: builder.mutation< { message: string }, number >({
+      query: (cycle_id) => ({
+        url: `/cycles/${cycle_id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: (result, error, cycle_id) => [
+        { type: "Cycles", id: cycle_id },
+        "Cycles",
+      ],
+      }),
       removeEmployeeFromCycle: builder.mutation<
         { message: string },
         {
@@ -129,6 +135,7 @@ export const {
   useRemoveEmployeeFromCycleMutation,
   useGetAppraisalsByCycleIdQuery,
   useUpdateCycleStatusMutation,
+  useDeleteCycleMutation,
 } = cycleApi;
 
 
