@@ -32,7 +32,7 @@ export const cycleApi = userBaseApi.injectEndpoints({
       providesTags: ["Cycles"],
     }),
     getCycleById: builder.query<AppraisalCycle, string>({
-      query: (id) => `cycle/${id}`,
+      query: (id) => `cycles/${id}`,
       providesTags: (result, error, id) => [{ type: "Cycles", id }],
     }),
     createCycle: builder.mutation<AppraisalCycle, Partial<AppraisalCycle>>({
@@ -45,7 +45,7 @@ export const cycleApi = userBaseApi.injectEndpoints({
     }),
     updateCycle: builder.mutation<AppraisalCycle, { id: string } & Partial<AppraisalCycle>>({
       query: ({ id, ...body }) => ({
-        url: `cycle/${id}`,
+        url: `cycles/${id}`,
         method: "PUT",
         body,
       }),
@@ -54,12 +54,12 @@ export const cycleApi = userBaseApi.injectEndpoints({
     assignEmployeesToCycle: builder.mutation<
         BulkAssignmentResponse,
         {
-          cycleId: number;
+          cycle_id: number;
           body: AssignmentParam;
         }
       >({
-        query: ({ cycleId, body }) => ({
-          url: `/cycle/${cycleId}/assignments`,
+        query: ({ cycle_id, body }) => ({
+          url: `/cycles/${cycle_id}/assignments`,
           method: "POST",
           body,
         }),
@@ -72,12 +72,12 @@ export const cycleApi = userBaseApi.injectEndpoints({
       removeEmployeeFromCycle: builder.mutation<
         { message: string },
         {
-          cycleId: number;
-          employeeId: number;
+          cycle_id: number;
+          employee_id: number;
         }
       >({
-        query: ({ cycleId, employeeId }) => ({
-          url: `/cycle/${cycleId}/assignments/${employeeId}`,
+        query: ({ cycle_id, employee_id }) => ({
+          url: `/cycles/${cycle_id}/assignments/${employee_id}`,
           method: "DELETE",
         }),
         invalidatesTags: ["Cycles", "CycleAssignments"],
