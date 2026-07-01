@@ -130,6 +130,11 @@ function CreateCycle({ fn }: { fn: (arg0: boolean) => void }) {
         <div className="overlay">
 
             <div className="create-cycle-form">
+                {/* {selectedEmployees.map((employee) => (
+                    <div key={employee.id}>
+                        {employee.name}
+                    </div>
+                ))} */}
                 <div className="create-cycle-form-header">
                     <span className="create-cycle-form-title">Create Appraisal Cycle</span>
                     <img src="/src/assets/close.svg" alt="" className="create-cycle-form-close" onClick={()=>fn(false)} />
@@ -154,15 +159,18 @@ function CreateCycle({ fn }: { fn: (arg0: boolean) => void }) {
                     <span className="create-cycle-form-label">ADD EMPLOYEES</span>
                     <div className="form-pair">
                         <input type="text" className="form-pair-input" placeholder="Search Employees" value={search} onChange={(e) => setSearch(e.target.value)} />
+                        select from:
                         <div className="form-pair-input filter-list">
 
                             {
                             filteredEmployees?.map((employee) => (
                                 <div key={employee?.id} className="filtered-list-item" onClick={() => {
                                     setSearch("");
-                                    selectedEmployees.push(employee);
-                                    setSelectedEmployees([...selectedEmployees]);
-                                    console.log(selectedEmployees)
+                                    const idList=selectedEmployees.map((employee) => employee.id);
+                                    if (!idList.includes(employee.id)) {
+                                        selectedEmployees.push(employee);
+                                        setSelectedEmployees([...selectedEmployees]);
+                                    }
                                     }
                                     }>
                                     {employee?.name}
@@ -172,13 +180,16 @@ function CreateCycle({ fn }: { fn: (arg0: boolean) => void }) {
                             }
 
                         </div>
+                        selected:
                         <div className="form-pair-input filtered-list">
 
                             {
                             selectedEmployees?.map((employee: any) => (
                                 <div key={employee?.id} className="filtered-list-item" onClick={() => {setSearch("");}}>
                                 {employee?.name}
-                                <img src="/src/assets/close.svg" alt="" />
+                                <img src="/src/assets/close.svg" alt="" onClick={()=>{
+                                    setSelectedEmployees(selectedEmployees.filter(remv_emp=>remv_emp.id!=employee?.id))
+                                }}/>
                                 </div>
                             )
                         )
