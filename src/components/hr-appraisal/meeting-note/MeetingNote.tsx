@@ -9,9 +9,9 @@ import {
 } from "lucide-react";
 
 import {
-    useGetAppraisalIdpQuery,
-    useCreateIdpTextMutation,
-    useUpdateIdpTextMutation
+    useGetAppraisalMeetingNotesQuery,
+    useCreateMeetingNotesMutation,
+    useUpdateMeetingNotesMutation,
 } from "../../../api_service/appraisal/appraisal.api";
 
 import "./MeetingNotes.css";
@@ -28,9 +28,9 @@ function MeetingNotes({
 }: MeetingNotesProps) {
 
     const {
-        data: idpData,
+        data: meetingNotesData,
         isLoading
-    } = useGetAppraisalIdpQuery(
+    } = useGetAppraisalMeetingNotesQuery(
         appraisalId,
         {
             skip: !appraisalId
@@ -38,21 +38,21 @@ function MeetingNotes({
     );
 
     const [
-        createIdpText
-    ] = useCreateIdpTextMutation();
+        createMeetingNotes
+    ] = useCreateMeetingNotesMutation();
 
     const [
-        updateIdpText
-    ] = useUpdateIdpTextMutation();
+        updateMeetingNotes
+    ] = useUpdateMeetingNotesMutation();
 
     const [isEditing, setIsEditing] =
         useState(false);
 
     const [notes, setNotes] =
         useState("");
-
+        
     const existingData =
-        !!idpData?.idp_text?.trim();
+        meetingNotesData?.meeting_notes != null;
 
     const isReadOnly =
         appraisalStatus ===
@@ -66,25 +66,27 @@ function MeetingNotes({
 
     useEffect(() => {
 
-        if (idpData?.idp_text) {
-            setNotes(
-                idpData.idp_text
-            );
-        }
+        setNotes(
+            meetingNotesData?.meeting_notes ?? ""
+        );
 
-    }, [idpData]);
+    }, [meetingNotesData]);
 
     async function handleSave() {
 
+        const trimmedNotes =
+            notes.trim();
+
         const payload = {
-            idp_text: notes.trim()
+            meeting_notes:
+                trimmedNotes
         };
 
         try {
 
             if (existingData) {
 
-                await updateIdpText({
+                await updateMeetingNotes({
                     appraisalId,
                     body: payload
                 }).unwrap();
@@ -92,7 +94,7 @@ function MeetingNotes({
             }
             else {
 
-                await createIdpText({
+                await createMeetingNotes({
                     appraisalId,
                     body: payload
                 }).unwrap();
@@ -145,17 +147,20 @@ function MeetingNotes({
             <div className="meeting-divider" />
 
             {isLoading ? (
+
                 <div className="meeting-placeholder">
                     Loading...
                 </div>
+
             ) : isEditing ? (
+
                 <>
                     <textarea
                         className="meeting-textarea"
                         value={notes}
-                        onChange={e =>
+                        onChange={(event) =>
                             setNotes(
-                                e.target.value
+                                event.target.value
                             )
                         }
                         placeholder="Enter meeting notes..."
@@ -174,21 +179,22 @@ function MeetingNotes({
 
                     </div>
                 </>
+
             ) : (
+
                 <div className="meeting-content">
 
                     {notes.trim() ? (
                         notes
                     ) : (
                         <span className="meeting-placeholder">
-                            No meeting
-                            notes have
-                            been added
-                            yet.
+                            No meeting notes
+                            have been added yet.
                         </span>
                     )}
 
                 </div>
+
             )}
 
         </div>

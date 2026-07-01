@@ -5,7 +5,7 @@ export interface IDPCreateUpdate {
 }
 
 export interface IDPResponse {
-  idp_text: string;
+  idp_text: string | null;
   updated_at: string; 
 }
 
@@ -20,6 +20,6 @@ export interface MeetingNotesMutationResponse {
 }
 
 export interface MeetingNotesGetResponse {
-  meeting_notes: string;
+  meeting_notes: string | null ;
   updated_at: string;
 }
